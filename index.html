@@ -1,0 +1,2030 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Openings — a journal in the manner of Friends. Queries at a chosen rhythm, pages that save as you write, a shelf of Quaker sources, and the bibliography behind them.">
+<style>
+:root{color-scheme:light dark}
+html,body{margin:0;padding:0}
+body{font:14px system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<title>Openings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap">
+<style>
+:root{
+  --ground:#E4E6DE;
+  --ground-deep:#D7DAD0;
+  --leaf:#FBFAF4;
+  --leaf-edge:#E6E3D6;
+  --ink:#1C1811;
+  --ink-soft:#3D362B;
+  --ink-faded:#5F5443;
+  --rule:#A0483A;
+  --verdigris:#27504A;
+  --verdigris-soft:#446F67;
+  --edge:#BFBBA9;
+  --hair:rgba(28,24,17,.18);
+  --grain:rgba(28,24,17,.03);
+  --shadow:0 1px 2px rgba(28,24,17,.07), 0 10px 28px -14px rgba(28,24,17,.32);
+  --slip:#F2EEE0;
+
+  --sans:"Spectral",Georgia,"Times New Roman",serif;
+  --fell:"IM Fell English",Georgia,"Times New Roman",serif;
+  --fellsc:"IM Fell English SC","IM Fell English",Georgia,serif;
+
+  --step:1.125rem;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#2A2721;
+    --ground-deep:#211E19;
+    --leaf:#34312A;
+    --leaf-edge:#443F36;
+    --ink:#F6F2E8;
+    --ink-soft:#E0DACB;
+    --ink-faded:#B8AE99;
+    --rule:#DC8B74;
+    --verdigris:#9DC7BA;
+    --verdigris-soft:#7FA89B;
+    --edge:#5A5347;
+    --hair:rgba(246,242,232,.22);
+    --grain:rgba(255,255,255,.025);
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 14px 34px -16px rgba(0,0,0,.7);
+    --slip:#3D3931;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#2A2721;
+  --ground-deep:#211E19;
+  --leaf:#34312A;
+  --leaf-edge:#443F36;
+  --ink:#F6F2E8;
+  --ink-soft:#E0DACB;
+  --ink-faded:#B8AE99;
+  --rule:#DC8B74;
+  --verdigris:#9DC7BA;
+  --verdigris-soft:#7FA89B;
+  --edge:#5A5347;
+  --hair:rgba(246,242,232,.22);
+  --grain:rgba(255,255,255,.025);
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 14px 34px -16px rgba(0,0,0,.7);
+  --slip:#3D3931;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:var(--sans);font-size:var(--step);line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--verdigris);outline-offset:2px;border-radius:1px}
+/* the page itself is the writing surface — an outline box around it
+   breaks the leaf. The caret and the coloured underline carry focus. */
+.bodyfield:focus-visible,.titlefield:focus-visible,.datefield:focus-visible{outline:none}
+.bodyfield:focus{caret-color:var(--rule)}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+/* ─── shared bits ─────────────────────────────────────────── */
+.sc{font-family:var(--fellsc);letter-spacing:.05em;font-size:.98rem;color:var(--ink-faded)}
+.btn{
+  background:transparent;border:1px solid var(--edge);color:var(--ink-soft);
+  font-family:var(--fellsc);font-size:1.02rem;letter-spacing:.03em;
+  padding:.5rem 1rem;cursor:pointer;border-radius:2px;line-height:1.25;
+  transition:border-color .15s,color .15s,background .15s;
+}
+.btn:hover{border-color:var(--verdigris);color:var(--verdigris)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn:disabled:hover{border-color:var(--edge);color:var(--ink-soft)}
+.btn-solid{background:var(--verdigris);border-color:var(--verdigris);color:var(--leaf)}
+.btn-solid:hover{background:var(--verdigris-soft);border-color:var(--verdigris-soft);color:var(--leaf)}
+.btn-danger:hover{border-color:var(--rule);color:var(--rule)}
+
+/* ─── title page (onboarding) ─────────────────────────────── */
+#titlepage{
+  position:fixed;inset:0;z-index:40;background:var(--ground);
+  overflow-y:auto;padding:clamp(1rem,2.2vw,2rem);
+}
+.tp-inner{max-width:68rem;margin:0 auto;display:grid;gap:2rem;grid-template-columns:1fr}
+@media(min-width:56rem){.tp-inner{grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:start}}
+.tp-sheet{
+  background:var(--leaf);box-shadow:var(--shadow);padding:clamp(1.4rem,3vw,2.5rem);
+  border:1px solid var(--leaf-edge);
+  background-image:repeating-linear-gradient(to bottom,transparent 0 3px,var(--grain) 3px 4px);
+}
+.tp-title{font-family:var(--fell);font-size:clamp(2.6rem,7vw,4rem);line-height:1;margin:0;text-wrap:balance}
+.tp-rule{height:1px;background:var(--rule);opacity:.6;margin:1.4rem 0 1.6rem;max-width:7rem}
+.tp-sheet p{margin:0 0 1rem;max-width:38rem;color:var(--ink-soft)}
+.tp-sheet p:last-child{margin-bottom:0}
+.epigraph{font-family:var(--fell);font-style:italic;font-size:1.28rem;line-height:1.55;color:var(--ink);border-left:3px solid var(--rule);padding-left:1.1rem;margin:0 0 1.5rem}
+.epigraph cite{display:block;font-style:normal;font-family:var(--fellsc);font-size:.95rem;letter-spacing:.04em;color:var(--ink-faded);margin-top:.55rem}
+.tp-form{display:grid;gap:1.6rem;align-content:start}
+fieldset{border:0;padding:0;margin:0;display:grid;gap:.6rem}
+legend{padding:0;font-family:var(--fellsc);font-size:1rem;letter-spacing:.05em;color:var(--ink-faded)}
+.field{
+  width:100%;background:var(--leaf);border:1px solid var(--edge);border-radius:2px;
+  padding:.65rem .8rem;font-family:var(--sans);font-size:1.08rem;color:var(--ink);
+}
+.field:focus{border-color:var(--verdigris)}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem}
+.chip{
+  border:1px solid var(--edge);background:transparent;color:var(--ink-soft);
+  padding:.5rem 1rem;border-radius:2px;cursor:pointer;line-height:1.25;
+  font-family:var(--fellsc);font-size:1.02rem;letter-spacing:.03em;
+  transition:all .15s;
+}
+.chip:hover{border-color:var(--verdigris-soft);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--verdigris);border-color:var(--verdigris);color:var(--leaf)}
+.note{font-size:.98rem;color:var(--ink-faded);line-height:1.55;max-width:34rem}
+
+/* ─── book plate (header) ─────────────────────────────────── */
+.plate{
+  display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:flex-end;justify-content:space-between;
+  padding:1rem clamp(.75rem,1.4vw,1.25rem) .85rem;border-bottom:1px solid var(--hair);
+  background:var(--ground-deep);
+}
+.plate h1{font-family:var(--fell);font-size:1.95rem;margin:0;line-height:1}
+.plate-meta{display:flex;flex-wrap:wrap;gap:.15rem 1.2rem;margin-top:.35rem}
+.plate-right{display:flex;flex-wrap:wrap;align-items:center;gap:.55rem 1.1rem;margin-left:auto}
+.record{display:flex;align-items:center;gap:.3rem}
+.record i{
+  display:block;width:.62rem;height:1.15rem;background:var(--edge);border-radius:1px;
+}
+.record i.kept{background:var(--verdigris)}
+.record i.now{box-shadow:0 2px 0 var(--rule)}
+
+/* ─── desk ────────────────────────────────────────────────── */
+.desk{
+  display:grid;gap:0;
+  grid-template-columns:1fr;
+  align-items:start;
+}
+@media(min-width:64rem){
+  .desk{grid-template-columns:17rem minmax(0,1fr) 23rem}
+}
+@media(min-width:82rem){
+  .desk{grid-template-columns:18rem minmax(0,1fr) 26rem}
+}
+@media(min-width:104rem){
+  .desk{grid-template-columns:21rem minmax(0,1fr) 30rem}
+}
+
+/* fore-edge / contents */
+.edge-col{
+  border-right:1px solid var(--hair);padding:1rem .8rem 3rem;
+  max-height:calc(100dvh - 6rem);overflow-y:auto;position:sticky;top:0;
+}
+@media(max-width:63.99rem){.edge-col{position:static;max-height:none;border-right:0;border-bottom:1px solid var(--hair)}}
+.edge-head{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem;margin-bottom:.6rem}
+.leaves{display:flex;flex-direction:column;gap:2px;margin:0 0 1rem}
+.leafbtn{
+  display:grid;grid-template-columns:1.9rem 1fr;gap:.5rem;align-items:baseline;
+  text-align:left;width:100%;background:transparent;border:0;border-left:2px solid transparent;
+  padding:.4rem .5rem .4rem .45rem;cursor:pointer;color:var(--ink-soft);
+  border-bottom:1px solid var(--hair);
+}
+.leafbtn:hover{background:var(--leaf)}
+.leafbtn[aria-current="true"]{border-left-color:var(--rule);background:var(--leaf);color:var(--ink)}
+.leafbtn .n{font-family:var(--fellsc);font-size:.92rem;color:var(--ink-faded);font-variant-numeric:tabular-nums}
+.leafbtn .d{font-family:var(--fellsc);font-size:.88rem;color:var(--ink-faded);display:block}
+.leafbtn .s{font-size:1rem;line-height:1.4;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.edge-actions{display:flex;flex-direction:column;gap:.5rem}
+
+/* the leaf */
+.leaf-col{padding:clamp(1rem,2.2vw,1.9rem) clamp(.5rem,1.1vw,.9rem) 4rem;min-width:0}
+.leaf{
+  max-width:58rem;margin:0 auto;background:var(--leaf);border:1px solid var(--leaf-edge);
+  box-shadow:var(--shadow);position:relative;
+  padding:clamp(1.5rem,3vw,2.6rem) clamp(1.1rem,2.4vw,2.1rem) clamp(2rem,4vw,3.2rem) clamp(2rem,4.2vw,3.3rem);
+  background-image:repeating-linear-gradient(to bottom,transparent 0 3px,var(--grain) 3px 4px);
+}
+.leaf::before{
+  content:"";position:absolute;top:0;bottom:0;left:clamp(1.35rem,2.9vw,2.3rem);
+  width:1px;background:var(--rule);opacity:.42;
+}
+.leaf-head{display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:baseline;justify-content:space-between;margin-bottom:1.1rem}
+.folio{font-family:var(--fellsc);font-size:1rem;letter-spacing:.05em;color:var(--ink-faded);font-variant-numeric:tabular-nums}
+.datefield{
+  background:transparent;border:0;border-bottom:1px solid transparent;color:var(--ink-faded);
+  font-family:var(--fellsc);font-size:1rem;letter-spacing:.04em;padding:.15rem 0;cursor:pointer;
+}
+.datefield:hover,.datefield:focus{border-bottom-color:var(--edge)}
+.slip{
+  background:var(--slip);border:1px solid var(--hair);border-left:3px solid var(--rule);
+  padding:.9rem 1.1rem;margin:0 0 1.6rem;
+}
+.slip .q{font-family:var(--fell);font-style:italic;font-size:1.2rem;line-height:1.5;margin:0;color:var(--ink)}
+.slip .attr{font-family:var(--fellsc);font-size:.9rem;letter-spacing:.03em;color:var(--ink-faded);margin:.5rem 0 0}
+.titlefield{
+  width:100%;background:transparent;border:0;border-bottom:1px solid var(--edge);
+  font-family:var(--fell);font-size:1.8rem;line-height:1.25;color:var(--ink);
+  padding:0 0 .5rem;margin:0 0 1.2rem;
+}
+.titlefield::placeholder{color:var(--ink-faded);opacity:.55}
+.titlefield:focus{border-bottom-color:var(--verdigris)}
+.bodyfield{
+  width:100%;background:transparent;border:0;resize:none;overflow:hidden;
+  font-family:var(--sans);font-size:1.2rem;line-height:1.85;color:var(--ink);
+  min-height:20rem;padding:0;display:block;
+}
+.bodyfield::placeholder{color:var(--ink-faded);opacity:.7}
+.leaf-foot{
+  display:flex;flex-wrap:wrap;gap:.5rem 1rem;align-items:center;justify-content:space-between;
+  max-width:58rem;margin:.9rem auto 0;
+}
+.turn{display:flex;gap:.5rem;align-items:center}
+.saved{font-family:var(--fellsc);font-size:.95rem;letter-spacing:.04em;color:var(--ink-faded);min-height:1.2em}
+.saved.on{color:var(--verdigris)}
+
+/* companion */
+.comp-col{
+  border-left:1px solid var(--hair);padding:1rem clamp(.8rem,1.2vw,1.05rem) 3rem;
+  max-height:calc(100dvh - 6rem);overflow-y:auto;position:sticky;top:0;background:var(--ground-deep);
+}
+@media(max-width:63.99rem){.comp-col{position:static;max-height:none;border-left:0;border-top:1px solid var(--hair)}}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--hair);margin-bottom:1rem}
+.tab{
+  background:transparent;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;
+  padding:.6rem .85rem;cursor:pointer;color:var(--ink-faded);
+  font-family:var(--fellsc);font-size:1.02rem;letter-spacing:.03em;
+}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--rule)}
+.panel{display:none;gap:.95rem;flex-direction:column}
+.panel.on{display:flex}
+.panel h3{font-family:var(--fellsc);font-size:1rem;letter-spacing:.05em;color:var(--ink-faded);margin:0;font-weight:400}
+.bigq{font-family:var(--fell);font-style:italic;font-size:1.35rem;line-height:1.5;margin:0;color:var(--ink)}
+.attr{font-family:var(--fellsc);font-size:.9rem;letter-spacing:.03em;color:var(--ink-faded);margin:0}
+.rowbtns{display:flex;flex-wrap:wrap;gap:.5rem}
+.answer{
+  background:var(--leaf);border:1px solid var(--edge);padding:1rem 1.1rem;
+  font-size:1.06rem;line-height:1.7;color:var(--ink-soft);white-space:pre-wrap;
+}
+.answer:empty{display:none}
+.answer .qline{
+  display:block;font-family:var(--fell);font-style:italic;font-size:1.15rem;color:var(--ink);
+  border-left:3px solid var(--rule);padding-left:.85rem;margin:0 0 .85rem;line-height:1.5;
+}
+.answer .qline:last-child{margin-bottom:0}
+.srcs{display:flex;flex-wrap:wrap;gap:.35rem}
+.src{
+  font-family:var(--fellsc);font-size:.88rem;letter-spacing:.02em;color:var(--ink-faded);
+  border:1px solid var(--edge);padding:.2rem .55rem;border-radius:2px;
+}
+.shelf{display:flex;flex-direction:column;gap:.65rem}
+.shelfitem{
+  border-bottom:1px solid var(--hair);padding:.15rem 0 .65rem;cursor:pointer;
+  background:transparent;border-top:0;border-left:0;border-right:0;text-align:left;width:100%;
+}
+.shelfitem:hover .st{color:var(--verdigris)}
+.st{display:block;font-family:var(--fell);font-size:1.12rem;line-height:1.4;color:var(--ink)}
+.sa{display:block;font-family:var(--fellsc);font-size:.88rem;letter-spacing:.02em;color:var(--ink-faded);margin-top:.2rem}
+.passage{
+  background:var(--leaf);border:1px solid var(--edge);border-left:3px solid var(--rule);
+  padding:.95rem 1.05rem;font-family:var(--fell);font-size:1.12rem;line-height:1.55;color:var(--ink);
+}
+.passage .attr{margin-top:.65rem}
+.thinking{color:var(--ink-faded);font-style:italic;font-size:1.02rem}
+a.booklink{
+  color:var(--verdigris);text-decoration:none;border-bottom:1px solid var(--verdigris);
+  font-family:var(--fellsc);letter-spacing:.03em;
+}
+a.booklink:hover{color:var(--verdigris-soft);border-bottom-color:var(--verdigris-soft)}
+a.src.booklink{border:1px solid var(--verdigris);color:var(--verdigris);text-decoration:none}
+a.src.booklink:hover{background:var(--verdigris);color:var(--leaf);border-color:var(--verdigris)}
+
+/* dialogs / status */
+.statusbar{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:1rem;z-index:30;
+  background:var(--ink);color:var(--leaf);padding:.7rem 1.1rem;
+  font-family:var(--fellsc);font-size:1rem;letter-spacing:.03em;
+  box-shadow:var(--shadow);display:none;align-items:center;gap:1rem;border-radius:2px;
+}
+.statusbar.on{display:flex}
+.statusbar button{background:transparent;border:1px solid currentColor;color:inherit;opacity:.85;
+  font-family:var(--fellsc);font-size:.98rem;padding:.25rem .7rem;cursor:pointer;border-radius:2px}
+.statusbar button:hover{opacity:1}
+
+.sheet{
+  position:fixed;inset:0;z-index:35;background:rgba(20,18,14,.5);
+  display:none;align-items:flex-start;justify-content:center;padding:clamp(1rem,5vh,4rem) 1rem;overflow-y:auto;
+}
+.sheet.on{display:flex}
+.sheet-inner{
+  background:var(--leaf);border:1px solid var(--leaf-edge);box-shadow:var(--shadow);
+  max-width:44rem;width:100%;padding:clamp(1.5rem,4vw,2.75rem);
+  background-image:repeating-linear-gradient(to bottom,transparent 0 3px,var(--grain) 3px 4px);
+}
+.sheet-inner h2{font-family:var(--fell);font-size:2.1rem;margin:0 0 .2rem;line-height:1.1}
+.sheet-inner h4{font-family:var(--fellsc);font-size:1rem;letter-spacing:.05em;color:var(--ink-faded);margin:1.7rem 0 .5rem;font-weight:400}
+.sheet-inner p{color:var(--ink-soft);margin:0 0 .9rem;max-width:40rem}
+.sheet-close{display:flex;justify-content:flex-end;margin-top:1.5rem}
+.hide{display:none!important}
+
+/* ─── clearing the book ───────────────────────────────────── */
+.danger{border:1px solid var(--rule);padding:1rem 1.1rem;margin-top:1.6rem;background:var(--slip)}
+.danger h4{margin:0 0 .4rem;color:var(--rule)}
+.danger p{margin:0 0 .9rem}
+.btn-clear{border-color:var(--rule);color:var(--rule)}
+.btn-clear:hover{background:var(--rule);border-color:var(--rule);color:var(--leaf)}
+.confirm{display:flex;flex-wrap:wrap;gap:.55rem;align-items:center;margin-top:.6rem}
+.confirm .warn{font-family:var(--fell);font-style:italic;font-size:1.1rem;color:var(--ink);flex:1 1 16rem}
+
+/* ─── export choice ───────────────────────────────────────── */
+.choice{display:grid;gap:1rem;margin-top:1.2rem}
+.choice-row{
+  display:flex;flex-wrap:wrap;gap:.75rem 1.2rem;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--hair);padding-bottom:1rem;
+}
+.choice-row:last-child{border-bottom:0;padding-bottom:0}
+.choice-row div{flex:1 1 18rem}
+.choice-row .what{display:block;font-family:var(--fell);font-size:1.2rem;color:var(--ink);line-height:1.3}
+.choice-row .why{display:block;font-size:.98rem;color:var(--ink-faded);line-height:1.5;margin-top:.25rem}
+
+/* ─── resource: entry prompts for young adults ────────────── */
+.resource{
+  border-top:1px solid var(--edge);background:var(--ground-deep);
+  padding:clamp(2rem,4vw,3rem) clamp(.75rem,1.4vw,1.25rem) clamp(3rem,5vw,4.5rem);
+}
+.resource-inner{max-width:82rem;margin:0 auto}
+.resource h2{font-family:var(--fell);font-size:clamp(1.9rem,4vw,2.5rem);margin:0;line-height:1.1;text-wrap:balance}
+.resource .lead{color:var(--ink-soft);max-width:44rem;margin:.9rem 0 0}
+.resource .prov{font-family:var(--fellsc);font-size:.92rem;letter-spacing:.03em;color:var(--ink-faded);margin:.7rem 0 0}
+.groups{display:grid;gap:2.2rem 2.6rem;grid-template-columns:1fr;margin-top:2.4rem}
+@media(min-width:52rem){.groups{grid-template-columns:1fr 1fr}}
+@media(min-width:92rem){.groups{grid-template-columns:repeat(4,1fr)}}
+.group{display:flex;flex-direction:column;gap:1.1rem}
+.group > h3{
+  font-family:var(--fellsc);font-size:1.05rem;letter-spacing:.05em;color:var(--ink);
+  margin:0;padding-bottom:.5rem;border-bottom:1px solid var(--rule);font-weight:400;
+}
+.eprompt{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start}
+.eprompt .name{font-family:var(--fell);font-size:1.18rem;color:var(--ink);line-height:1.3}
+.eprompt .q{margin:0;color:var(--ink-soft);line-height:1.6}
+
+/* ─── resource: the bibliography ──────────────────────────── */
+.biblio{display:grid;gap:1.5rem 2.8rem;grid-template-columns:1fr;margin-top:2.2rem}
+@media(min-width:60rem){.biblio{grid-template-columns:1fr 1fr}}
+@media(min-width:100rem){.biblio{grid-template-columns:repeat(3,1fr)}}
+.bib{display:flex;flex-direction:column;gap:.28rem;border-bottom:1px solid var(--hair);padding-bottom:1.2rem}
+.bib .who{font-family:var(--fellsc);font-size:.94rem;letter-spacing:.04em;color:var(--ink-faded)}
+.bib .what{font-family:var(--fell);font-size:1.18rem;line-height:1.3;color:var(--ink)}
+.bib .about{font-size:.98rem;line-height:1.55;color:var(--ink-soft);margin:.2rem 0 0}
+.bib a{
+  align-self:flex-start;margin-top:.35rem;color:var(--verdigris);text-decoration:none;
+  border-bottom:1px solid var(--verdigris);font-family:var(--fellsc);
+  font-size:.92rem;letter-spacing:.03em;
+}
+.bib a:hover{color:var(--verdigris-soft);border-bottom-color:var(--verdigris-soft)}
+.bib .noweb{font-family:var(--fellsc);font-size:.9rem;letter-spacing:.03em;color:var(--ink-faded);margin-top:.35rem}
+</style>
+
+<!-- ══════════════ TITLE PAGE ══════════════ -->
+<div id="titlepage">
+  <div class="tp-inner">
+    <div class="tp-sheet">
+      <h1 class="tp-title">Openings</h1>
+      <div class="tp-rule"></div>
+      <p class="epigraph">I have often felt a motion of love to leave some hints in writing of my experience of the goodness of God; and now, in the thirty-sixth year of my age, I begin this work.
+        <cite>John Woolman, opening his journal, 1756</cite></p>
+      <p>Friends have kept journals for three and a half centuries — not diaries of events, but a record of what was opened to a person and what they did about it. George Fox called such a moment an <em>opening</em>. Woolman began his at thirty-six and wrote in it until the smallpox took him in York. What they wrote down was mostly plain: where they went, whom they sat with, what troubled them, where they were faithful and where they were not.</p>
+      <p>This book works the same way. It gives you a query at whatever rhythm you set, and a blank page. You are not answering the query for anyone. You are letting it work on you, in writing, over time — which is slower than thinking and harder to fool.</p>
+      <p>The queries come from the Advices and Queries of Iowa Yearly Meeting (Conservative) and from the writings on the shelf inside: Woolman, Fox, Penington, Kelly, Faith and Practice, and several living voices. You can ask the shelf a question at any time, and you can ask for queries on what you have just written — never advice, and never a verdict, in the manner of a clearness committee.</p>
+    </div>
+
+    <div class="tp-form" id="tpform">
+      <fieldset>
+        <legend>whose book this is</legend>
+        <input class="field" id="f-writer" type="text" placeholder="Your name" autocomplete="name">
+      </fieldset>
+
+      <fieldset>
+        <legend>what to call it</legend>
+        <input class="field" id="f-booktitle" type="text" placeholder="Openings" >
+      </fieldset>
+
+      <fieldset>
+        <legend>do you want queries at all?</legend>
+        <div class="chips" id="f-queries" role="group" aria-label="Queries">
+          <button type="button" class="chip" data-v="yes" aria-pressed="true">yes, give me a query</button>
+          <button type="button" class="chip" data-v="no" aria-pressed="false">no — just my own writing</button>
+        </div>
+        <p class="note">Say no and every page opens blank, with nothing suggested and nothing in the margin. The shelf and the reading-back stay available if you ever want them. You can change this later.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>how often you mean to write</legend>
+        <div class="chips" id="f-rhythm" role="group" aria-label="Rhythm">
+          <button type="button" class="chip" data-v="daily" aria-pressed="false">daily</button>
+          <button type="button" class="chip" data-v="weekly" aria-pressed="true">weekly</button>
+          <button type="button" class="chip" data-v="monthly" aria-pressed="false">monthly</button>
+          <button type="button" class="chip" data-v="open" aria-pressed="false">as way opens</button>
+        </div>
+        <p class="note">The book cannot send you a reminder. It holds one query for the whole period, and marks the record when you write in it.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>what the queries should concern</legend>
+        <div class="chips" id="f-themes" role="group" aria-label="Themes"></div>
+        <p class="note">Choose as many as you like. These shape which queries come, and they are sent along whenever you ask the shelf a question or ask for queries on your writing.</p>
+      </fieldset>
+
+      <div>
+        <button class="btn btn-solid" id="f-open" type="button" style="padding:.5rem 1.2rem">Open the book</button>
+        <button class="btn hide" id="f-existing" type="button" style="margin-left:.5rem">Open an existing book</button>
+      </div>
+      <p class="note" id="f-storagenote">Pages are kept with this page itself, so they are here when you come back on any device. Anyone who can open this artifact can open the books inside it — keep that in mind before writing something you would not want a Friend to read.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ THE BOOK ══════════════ -->
+<div id="book" class="hide">
+  <header class="plate">
+    <div>
+      <h1 id="p-title">Openings</h1>
+      <div class="plate-meta">
+        <span class="sc" id="p-writer"></span>
+        <span class="sc" id="p-rhythm"></span>
+        <span class="sc" id="p-themes"></span>
+      </div>
+    </div>
+    <div class="plate-right">
+      <div class="record" id="p-record" title="The record"></div>
+      <button class="btn" id="b-theme" type="button">paper</button>
+      <button class="btn" id="b-entry" type="button">entry prompts</button>
+      <button class="btn" id="b-biblio" type="button">bibliography</button>
+      <button class="btn" id="b-about" type="button">the practice</button>
+      <button class="btn" id="b-settings" type="button">settings</button>
+      <button class="btn" id="b-export" type="button">export</button>
+    </div>
+  </header>
+
+  <div class="desk">
+    <!-- fore-edge -->
+    <aside class="edge-col">
+      <div class="edge-head">
+        <span class="sc">contents</span>
+        <span class="sc" id="e-count"></span>
+      </div>
+      <div class="leaves" id="e-list"></div>
+      <div class="edge-actions">
+        <button class="btn" id="b-append" type="button">＋ new page at the end</button>
+        <button class="btn" id="b-insert" type="button">＋ insert after this page</button>
+        <button class="btn btn-danger" id="b-delete" type="button">− delete this page</button>
+      </div>
+    </aside>
+
+    <!-- the leaf -->
+    <main class="leaf-col">
+      <article class="leaf" id="leaf">
+        <div class="leaf-head">
+          <span class="folio" id="l-folio">page 1</span>
+          <input class="datefield" id="l-date" type="date" aria-label="Date of this page">
+        </div>
+        <div class="slip hide" id="l-slip">
+          <p class="q" id="l-slipq"></p>
+          <p class="attr" id="l-slipa"></p>
+        </div>
+        <input class="titlefield" id="l-title" type="text" placeholder="Untitled" aria-label="Title of this page">
+        <textarea class="bodyfield" id="l-body" placeholder="Begin here." aria-label="The page"></textarea>
+      </article>
+      <div class="leaf-foot">
+        <div class="turn">
+          <button class="btn" id="b-prev" type="button">← previous</button>
+          <span class="sc" id="l-of"></span>
+          <button class="btn" id="b-next" type="button">next →</button>
+        </div>
+        <span class="saved" id="l-saved"></span>
+      </div>
+    </main>
+
+    <!-- companion -->
+    <aside class="comp-col">
+      <div class="tabs" role="tablist">
+        <button class="tab" id="t-prompt" role="tab" aria-selected="true" aria-controls="pn-prompt">the query</button>
+        <button class="tab" id="t-shelf" role="tab" aria-selected="false" aria-controls="pn-shelf">the shelf</button>
+        <button class="tab" id="t-read" role="tab" aria-selected="false" aria-controls="pn-read">reading back</button>
+      </div>
+
+      <section class="panel on" id="pn-prompt" role="tabpanel" aria-labelledby="t-prompt">
+        <h3 id="pq-period"></h3>
+        <p class="bigq" id="pq-text"></p>
+        <p class="attr" id="pq-attr"></p>
+        <div class="rowbtns">
+          <button class="btn" id="b-use" type="button">write on this</button>
+          <button class="btn" id="b-another" type="button">another query</button>
+        </div>
+        <h3 style="margin-top:1rem">from the shelf, on this</h3>
+        <div class="passage" id="pq-passage"></div>
+      </section>
+
+      <section class="panel" id="pn-shelf" role="tabpanel" aria-labelledby="t-shelf">
+        <h3>ask the shelf</h3>
+        <input class="field" id="sh-q" type="text" placeholder="What did Woolman do about the war tax?">
+        <div class="rowbtns">
+          <button class="btn btn-solid" id="b-ask" type="button">ask</button>
+          <button class="btn hide" id="b-stopask" type="button">stop</button>
+        </div>
+        <div class="answer" id="sh-a"></div>
+        <div class="srcs" id="sh-s"></div>
+        <h3 style="margin-top:.6rem">what is on the shelf</h3>
+        <div class="shelf" id="sh-list"></div>
+      </section>
+
+      <section class="panel" id="pn-read" role="tabpanel" aria-labelledby="t-read">
+        <h3>on this page</h3>
+        <p class="note">Friends respond to one another with questions, not verdicts. This asks Claude to read what you have written and offer queries back — no praise, no advice.</p>
+        <div class="rowbtns">
+          <button class="btn btn-solid" id="b-queries" type="button">queries on this page</button>
+        </div>
+        <div class="answer" id="fb-a"></div>
+        <h3 style="margin-top:.6rem">across the book</h3>
+        <p class="note">Reads your recent pages together and names what you keep returning to.</p>
+        <div class="rowbtns">
+          <button class="btn" id="b-across" type="button">what I keep returning to</button>
+          <button class="btn hide" id="b-stopfb" type="button">stop</button>
+        </div>
+        <div class="answer" id="fb-b"></div>
+      </section>
+    </aside>
+  </div>
+
+  <section class="resource" id="resource">
+    <div class="resource-inner">
+      <h2>Entry prompts for young adults</h2>
+      <p class="lead">These entry prompts are designed for young adults to explore Quaker leadings, community accountability, and the tension between conscience and societal expectation. They are structured into progressive themes to support reflective journaling or interactive branching paths.</p>
+      <p class="prov">From <em>Entry prompts for young adults</em> — machine-drafted, kept in the Channels Knowledge bundle, and reproduced here in full. Any one of them can be taken straight onto a page.</p>
+      <div class="groups" id="eprompts"></div>
+    </div>
+  </section>
+
+  <section class="resource" id="bibliography">
+    <div class="resource-inner">
+      <h2>Bibliography of Quaker books</h2>
+      <p class="lead">The thirty-three documents on the shelf this journal draws from — the Advices and Queries and Faith and Practice of Iowa Yearly Meeting (Conservative), the early Friends in modernized editions, the Iowa and Bear Creek histories, the conscription and war-tax material, and the settler-colonial sources. Every passage quoted in <em>the shelf</em> comes from one of these.</p>
+      <p class="prov">Alphabetical by author, with works of unknown authorship last. Each note is the description carried in that document's own record. Twenty-eight have a source on the open web, each address checked on 6 September 2026; the other five say so plainly rather than guess.</p>
+      <div class="biblio" id="biblist"></div>
+    </div>
+  </section>
+</div>
+
+<div class="statusbar" id="statusbar"><span id="status-text"></span><button id="status-act" type="button" class="hide"></button></div>
+
+<!-- about sheet -->
+<div class="sheet" id="sheet-about">
+  <div class="sheet-inner">
+    <h2>The practice</h2>
+    <p class="attr">how Friends have used a journal, and how to use this one</p>
+    <h4>what a Quaker journal is</h4>
+    <p>It is not a diary of what happened. It is a record of leadings — of what was opened to you, what you did about it, and what it cost. Woolman's journal spends more words on his own reluctance than on his travels. James Parnell was dead at nineteen and had already written. The point is faithfulness, recorded plainly enough that you cannot later pretend otherwise.</p>
+    <h4>plainness</h4>
+    <p>Write it plain. No performance, no audience, no attempt to sound like a Friend. The Advices ask us to speak "clearly, simply and from our own experience" in meeting; the same holds on the page.</p>
+    <h4>the query</h4>
+    <p>A query is not a question with an answer. Faith and Practice "suggests rather than commands, and raises questions or queries rather than giving specific answers." Carry one for the whole period. Come back to it. Notice when your answer changes.</p>
+    <h4>where it goes wrong</h4>
+    <p>Two ways, mainly. Writing only when moved, so the record has nothing in it but the high days. And writing to a reader — even an imagined one — which turns the journal into a defence. If you find yourself explaining, stop and write the thing you were explaining around.</p>
+    <h4>asking</h4>
+    <p>The shelf holds real passages from the sources named on it, carried inside this page. When you ask it something, it answers from those passages only, and names which. It cannot reach the full books. When it does not know, it says so.</p>
+    <h4>what is kept, and where</h4>
+    <p id="ab-storage"></p>
+    <div class="sheet-close"><button class="btn" data-close="sheet-about" type="button">close</button></div>
+  </div>
+</div>
+
+<!-- settings sheet -->
+<div class="sheet" id="sheet-settings">
+  <div class="sheet-inner">
+    <h2>Settings</h2>
+    <p class="attr">these change which queries come and what is sent when you ask</p>
+    <h4>whose book this is</h4>
+    <input class="field" id="s-writer" type="text">
+    <h4>what to call it</h4>
+    <input class="field" id="s-booktitle" type="text">
+    <h4>do you want queries at all?</h4>
+    <div class="chips" id="s-queries" role="group" aria-label="Queries">
+      <button type="button" class="chip" data-v="yes" aria-pressed="false">yes, give me a query</button>
+      <button type="button" class="chip" data-v="no" aria-pressed="false">no — just my own writing</button>
+    </div>
+    <h4>how often you mean to write</h4>
+    <div class="chips" id="s-rhythm" role="group" aria-label="Rhythm">
+      <button type="button" class="chip" data-v="daily" aria-pressed="false">daily</button>
+      <button type="button" class="chip" data-v="weekly" aria-pressed="false">weekly</button>
+      <button type="button" class="chip" data-v="monthly" aria-pressed="false">monthly</button>
+      <button type="button" class="chip" data-v="open" aria-pressed="false">as way opens</button>
+    </div>
+    <h4>what the queries should concern</h4>
+    <div class="chips" id="s-themes" role="group" aria-label="Themes"></div>
+    <h4>other books here</h4>
+    <div class="shelf" id="s-books"></div>
+
+    <div class="danger">
+      <h4 style="margin-top:0">Clearing the book</h4>
+      <p id="clear-count"></p>
+      <button class="btn btn-clear" id="b-clear" type="button">clear all writings</button>
+      <div class="confirm hide" id="clear-confirm">
+        <span class="warn" id="clear-warn"></span>
+        <button class="btn btn-clear" id="b-clear-yes" type="button">yes, clear everything</button>
+        <button class="btn" id="b-clear-no" type="button">keep them</button>
+      </div>
+    </div>
+
+    <div class="sheet-close">
+      <button class="btn btn-solid" id="s-save" type="button">save</button>
+      <button class="btn" data-close="sheet-settings" type="button" style="margin-left:.4rem">close</button>
+    </div>
+  </div>
+</div>
+
+<!-- export sheet -->
+<div class="sheet" id="sheet-export">
+  <div class="sheet-inner">
+    <h2>Export the book</h2>
+    <p class="attr">every page, in the order they stand, with their dates and queries</p>
+    <div class="choice">
+      <div class="choice-row">
+        <div>
+          <span class="what">A PDF</span>
+          <span class="why">Laid out to read and to print — a title page, then every entry set in Times with its date, its query and a margin rule. This is the one to keep or hand to someone.</span>
+        </div>
+        <button class="btn btn-solid" id="b-exp-pdf" type="button">export pdf</button>
+      </div>
+      <div class="choice-row">
+        <div>
+          <span class="what">A Markdown file</span>
+          <span class="why">Plain text with light formatting, for editing elsewhere or filing alongside your other writing.</span>
+        </div>
+        <button class="btn" id="b-exp-md" type="button">export markdown</button>
+      </div>
+    </div>
+    <div class="sheet-close"><button class="btn" data-close="sheet-export" type="button">close</button></div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+/* ═══════════════════════════════════════════════════════════
+   THEMES
+   ═══════════════════════════════════════════════════════════ */
+const THEMES = [
+  {id:"faith",   label:"faith and worship"},
+  {id:"native",  label:"Native affairs"},
+  {id:"race",    label:"racial injustice"},
+  {id:"peace",   label:"war and peace"},
+  {id:"comm",    label:"community and mutual aid"},
+  {id:"earth",   label:"simplicity and the earth"}
+];
+const THEME_LABEL = Object.fromEntries(THEMES.map(t=>[t.id,t.label]));
+
+/* ═══════════════════════════════════════════════════════════
+   THE SHELF — verbatim passages, each checked against the
+   source document. Nothing here is paraphrased.
+   ═══════════════════════════════════════════════════════════ */
+const SHELF = [
+{id:"balby", themes:["faith"], title:"Letter from the meeting of Elders at Balby, 1656",
+ src:"Quoted in Faith and Practice, Iowa Yearly Meeting (Conservative), 2011",
+ text:"Dearly Beloved Friends, these things we do not lay upon you as a rule or form to walk by, but that all, with the measure of light which is pure and holy, may be guided and so in the light walking and abiding, these may be fulfilled in the spirit, not the letter, for the letter killeth, but the spirit giveth life."},
+
+{id:"woolman-open", themes:["faith"], title:"John Woolman begins his journal, 1756",
+ src:"The Journal of John Woolman, Chapter I",
+ text:"I have often felt a motion of love to leave some hints in writing of my experience of the goodness of God; and now, in the thirty-sixth year of my age, I begin this work."},
+
+{id:"woolman-principle", themes:["faith","native","race"], title:"John Woolman on the Principle which is pure, c. 1772",
+ src:"Quoted in Faith and Practice, Iowa Yearly Meeting (Conservative), 2011",
+ text:"There is a Principle which is pure, placed in the human Mind, which in different Places and Ages hath had different Names; it is, however, pure, and proceeds from God. It is deep, and inward, confined to no Forms of Religion, nor excluded from any, where the Heart stands in perfect Sincerity. In whomsoever this takes Root and grows, of what Nation so ever, they become Brethren."},
+
+{id:"fox-patterns", themes:["faith","comm"], title:"George Fox, 1656",
+ src:"Quoted in Faith and Practice, Iowa Yearly Meeting (Conservative), 2011",
+ text:"Be patterns, be examples in all countries, places, islands, nations, wherever you come; that your carriage and life may preach among all sorts of people, and to them; then you will come to walk cheerfully over the world, answering to that of God in every one: Whereby in them you may be a blessing, and make the witness of God in them bless you."},
+
+{id:"fox-occasion", themes:["peace"], title:"George Fox on the occasion of war",
+ src:"Epigraph to Query 12, Advices and Queries of Iowa Yearly Meeting (Conservative)",
+ text:"[We] seek to live in the virtue of that life and power that takes away the occasion of all wars."},
+
+{id:"fox-1660", themes:["peace"], title:"The Declaration to Charles II, 1660",
+ src:"George Fox and others, quoted in Faith and Practice, Iowa Yearly Meeting (Conservative), 2011",
+ text:"[W]e do utterly deny … all outward wars and strife and fightings with outward weapons, for any end, or under any pretence whatsoever, and this is our testimony to the whole world. . . . [W]e do certainly know, and so testify to the world, that the spirit of Christ which leads us into all Truth will never lead us to fight and war against any man with outward weapons, neither for the kingdom of Christ, nor for the kingdoms of this world . . ."},
+
+{id:"penington", themes:["comm","faith"], title:"Isaac Penington, 1667",
+ src:"Quoted in Faith and Practice, Iowa Yearly Meeting (Conservative), 2011",
+ text:"Our life is love, and peace, and tenderness; and bearing one with another, and forgiving one another, and not laying accusations one against another; but praying one for another, helping one another up with a tender hand."},
+
+{id:"kelly-center", themes:["faith","earth"], title:"Thomas Kelly on living from a Center",
+ src:"Epigraph to Query 8, Advices and Queries of Iowa Yearly Meeting (Conservative)",
+ text:"Life is meant to be lived from a Center, a divine Center--a life of unhurried peace and power. It is serene. It takes not time, but it occupies all our time."},
+
+{id:"kelly-simplify", themes:["earth","faith"], title:"Thomas Kelly on centering down, 1941",
+ src:"A Testament of Devotion, quoted in Faith and Practice, Iowa Yearly Meeting (Conservative), 2011",
+ text:"Simplification comes when we “center down,” when life is lived with singleness of eye, from a holy Center where the breath and stillness of Eternity are heavy upon us and we are wholly yielded to God."},
+
+{id:"fp-light", themes:["faith"], title:"Faith and Practice: the Inner Light",
+ src:"Faith and Practice, Iowa Yearly Meeting (Conservative), 2011, p. 8",
+ text:"Most fundamentally, Friends perceive “that of God” in all persons. This living presence, experienced variously as the Inner Light, the Holy Spirit, the Inward Christ, and the Divine Center, enables a person to enter into intimate communion with God, without intermediaries. Friends are led, inspired, enlightened, or chastened as they come into the Light in prayer."},
+
+{id:"fp-truth", themes:["faith"], title:"Faith and Practice: continuing revelation",
+ src:"Faith and Practice, Iowa Yearly Meeting (Conservative), 2011, p. 10",
+ text:"Truth does not change, but individual and corporate perception does. Friends acknowledge that understanding of Truth may change through careful attention to the leading of the Holy Spirit. Truth is revealed continuously if gradually through the living link with God in a person’s heart."},
+
+{id:"fp-equality", themes:["race","comm"], title:"Faith and Practice: the testimony of equality",
+ src:"Faith and Practice, Iowa Yearly Meeting (Conservative), 2011, p. 11",
+ text:"The Light which leads to unity in the meeting community illuminates all relationships among people everywhere. This Light leads Friends into deep concern for those who have been victims of prejudice, exploitation, and violence. Friends strive to uphold the basic human rights and dignity of each person in meetings and society at large."},
+
+{id:"fp-integrity", themes:["faith","peace"], title:"Faith and Practice: the testimony of integrity",
+ src:"Faith and Practice, Iowa Yearly Meeting (Conservative), 2011, pp. 11–12",
+ text:"Our commitment to truth requires that we earnestly and consistently seek to know and do what is right, whether or not it is in our immediate or selfish interest. We strive to be faithful to the light that is given to us and to be honest in all our dealings, both as a group and as individuals. We attempt to live the life we profess and take personal responsibility for our thoughts and behaviors."},
+
+{id:"fp-simplicity", themes:["earth"], title:"Faith and Practice: the testimony of simplicity",
+ src:"Faith and Practice, Iowa Yearly Meeting (Conservative), 2011, p. 12",
+ text:"As we exclude superfluous possessions and activity from our lives, we hope to better hear “the Still, Small Voice” (I Kings 19:12) when it speaks from within. The testimony of simplicity also confers an obligation to be mindful of consumption of material resources so as not to impose hardship on others and on the natural environment."},
+
+{id:"fp-peace", themes:["peace"], title:"Faith and Practice: peace is more than the absence of violence",
+ src:"Faith and Practice, Iowa Yearly Meeting (Conservative), 2011, pp. 12–13",
+ text:"Peace is more than the absence of violence. It is a condition in which people do not fear one another. By attending to that of God in themselves, and by looking to that of God in others, Friends strive toward a world in which peace can prevail. Pacifism is not passive. It requires courage to wage peace at every level of human relationship, bringing God’s wisdom and love to bear on interactions ranging from interpersonal to international."},
+
+{id:"fp-queries", themes:["faith"], title:"Faith and Practice on queries",
+ src:"Faith and Practice, Iowa Yearly Meeting (Conservative), 2011, Introduction",
+ text:"Faith and Practice suggests rather than commands, and raises questions or queries rather than giving specific answers. It places upon the individual and corporate conscience, rather than upon external authority, the responsibility for the discipline of the Spirit."},
+
+{id:"aq-intro", themes:["faith"], title:"Advices and Queries: what they are for",
+ src:"Advices and Queries of Iowa Yearly Meeting (Conservative), Introduction",
+ text:"The Quaker faith is not written in the form of a creed, but is experienced in our lives as a vibrant, living truth. Advices and queries serve to engage our minds and hearts in a process which may provide openings to the leadings of the Spirit within us. These leadings may speak to our individual and corporate needs."},
+
+{id:"aq-worship", themes:["faith"], title:"Advice 1: Meeting for Worship",
+ src:"Advices and Queries of Iowa Yearly Meeting (Conservative), No. 1",
+ text:"Meeting for Worship is the heart of the meeting. In the silence, we seek direct communion with God the Spirit, conscious of the seeking of others. From the depths of living silence may come an awareness of the presence of the Spirit. Sometimes the silence is unbroken. At other times a message may come to any one of us which seems intended not simply for the worshiper, but for the gathering as a whole. If the message is not expressed one may feel a sense of not having been faithful to a leading of the Spirit, but if it is spoken, a sense of peace may follow. We are most effective if we speak clearly, simply and from our own experience."},
+
+{id:"aq-personal", themes:["earth","faith"], title:"Advice 8: Personal Responsibility",
+ src:"Advices and Queries of Iowa Yearly Meeting (Conservative), No. 8",
+ text:"Honesty and simplicity are essential parts of personal responsibility. We manifest our commitment to Truth in all we do. We can have joy and beauty in our lives without allowing material things to dominate them. We need to free ourselves from distractions that interfere with our search for inner peace, and accept with thanksgiving all that promotes fullness and aids in service to the divine Center."},
+
+{id:"aq-civic", themes:["peace","race"], title:"Advice 9: Civic Responsibility",
+ src:"Advices and Queries of Iowa Yearly Meeting (Conservative), No. 9",
+ text:"Our first allegiance is to the Holy Spirit. In general, Friends support the laws of the State; but if those laws directly violate our religious convictions, we may be led to oppose them. When contemplating civil disobedience or unpopular personal testimony, we must carefully consider the spiritual basis for, and honestly face the consequences of our actions."},
+
+{id:"aq-earth", themes:["earth","native"], title:"Advice 10: Environmental Responsibility",
+ src:"Advices and Queries of Iowa Yearly Meeting (Conservative), No. 10",
+ text:"All of creation is divine and interdependent: air, water, soil, and all that lives and grows. Since human beings are part of this fragile and mysterious web, whenever we pollute or neglect the earth we pollute and neglect our own wellsprings. Developing a keen awareness of our role in the universe is essential if we are to live peacefully within creation."},
+
+{id:"aq-justice", themes:["race","comm"], title:"Advice 11: Social and Economic Justice",
+ src:"Advices and Queries of Iowa Yearly Meeting (Conservative), No. 11",
+ text:"We are part of an economic system characterized by inequality and exploitation. Such a society is defended and perpetuated by entrenched power. Friends can help relieve social and economic oppression and injustice by first seeking spiritual guidance in our own lives. Friends’ belief in the Divine within everyone leads us to support institutions which meet human needs and to seek to change institutions which fail to meet human needs."},
+
+{id:"aq-peace", themes:["peace"], title:"Advice 12: Peace and Nonviolence",
+ src:"Advices and Queries of Iowa Yearly Meeting (Conservative), No. 12",
+ text:"We seek peace within our own lives. Sometimes there are barriers to peace within families and meetings, and among individuals. The violence we oppose is not only war, but all unloving acts. Friends seek peaceful resolution to conflicts among nations and peoples. To oppose war is not enough if we fail to deal with the injustices and inequalities that often lead to violence. We need to address the causes of war, such as aggression, revenge, overpopulation, greed, and religious and ethnic differences."},
+
+{id:"woolman-love", themes:["native","peace"], title:"Woolman sets out for Wehaloosing, 1763",
+ src:"The Journal of John Woolman, Chapter VIII",
+ text:"Love was the first motion, and from there a concern arose to spend some time with the Indians, that I might feel and understand their life and the spirit they live in, if haply I might receive some instruction from them, or they be in any degree helped forward by my following the leadings of Truth among them."},
+
+{id:"woolman-seeds", themes:["native","race","earth"], title:"Woolman on the seeds of great calamity",
+ src:"The Journal of John Woolman, Chapter VIII",
+ text:"Here, luxury and covetousness, with the numerous oppressions and other evils attending them, appeared very afflicting to me; and I felt in that which is immutable, that the seeds of great calamity and desolation are sown and growing fast on this continent."},
+
+{id:"woolman-luxury", themes:["peace","race"], title:"Woolman on luxury and oppression",
+ src:"John Woolman, Considerations on Keeping Negroes",
+ text:"And where this disposition arises so high, as to embolden us to look upon honest industrious men as our own property during life, and to keep them to hard labor, to support us in those customs which have not their foundation in right reason, or to use any means of oppression; a haughty spirit is cherished on one side, and the desire of revenge frequently excited on the other, till the inhabitants of the land are ripe for great commotion and trouble; and thus luxury and oppression have the seeds of war and desolation in them."},
+
+{id:"woolman-robin", themes:["earth","faith"], title:"Woolman and the robin, in childhood",
+ src:"The Journal of John Woolman, Chapter I",
+ text:"I stood and threw stones at her, till one striking her, she fell down dead: at first I was pleased with the exploit, but after a few minutes was seized with horror, for having, in a sportive way, killed an innocent creature while she was careful for her young."},
+
+{id:"kunesh-colonization", themes:["native"], title:"tom kunesh defines colonization, 2022",
+ src:"Decolonizing Quaker Moves to Innocence, Quaker Religious Thought, Vol. 139, Article 5",
+ text:"Colonization is an implicit declaration of war by one nation on a foreign people with the purpose of taking their land. Colonialism uses overwhelming military and legal violence as means to an end of security and control for empire. It starts by saying, “We just want this piece of land,” with various reasons given—economic, safe trade, national security, or living space."},
+
+{id:"kunesh-peace", themes:["native","peace"], title:"tom kunesh on what colonial “peace” means, 2022",
+ src:"Decolonizing Quaker Moves to Innocence, Quaker Religious Thought, Vol. 139, Article 5",
+ text:"“Peace” in the imperial colonial system needs to be understood as aggressive military engagement against indigenous resistance, overwhelming them with violence. Local freedom fighters are forced to demilitarize for the purpose of establishing a long-lasting “peace” that will accommodate and promote business and capitalism. Colonialism’s “peace” eliminates indigenous autonomy, agency, and culture."},
+
+{id:"kunesh-record", themes:["native"], title:"tom kunesh on what Quakers have not addressed, 2022",
+ src:"Decolonizing Quaker Moves to Innocence, Quaker Religious Thought, Vol. 139, Article 5",
+ text:"But quakerism in general—apart from one article, one ad hoc working group, and several yearly meetings’ “repudiation” of roman catholic doctrines of discovery—has not directly addressed its robust participation in the anglo-american colonial past in the United States and elsewhere (genocide, land theft, racial cleansing, broken treaties, concentration of indigenous people into reservations, and re-education through “indian” boarding schools, a.k.a. assimilation camps), the present reality of continuing to settle stolen lands in the USA."},
+
+{id:"jk-measure", themes:["comm","race"], title:"An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK",
+ src:"Jeff Kisling",
+ text:"The measure of a community is how the needs of its people are met. No one should go hungry, or without shelter or healthcare. Yet in this country known as the United States millions struggle to survive. The capitalist economic system creates hunger, houselessness, illness that is preventable and despair."},
+
+{id:"jk-clear", themes:["comm","race","native"], title:"An Epistle to Friends: what has become clear",
+ src:"Jeff Kisling",
+ text:"It has become clear to some of us who are called Friends that the colonial capitalist economic system and white supremacy are contrary to the Spirit and we must find a better way."},
+
+{id:"jk-mutualaid", themes:["comm"], title:"An Epistle to Friends: what mutual aid is",
+ src:"Jeff Kisling",
+ text:"The concept of Mutual Aid is simple to explain but can result in transformative change. Mutual Aid involves everyone coming together to find a solution for problems we all face. This is a radical departure from “us” helping “them”. Instead, we all work together to find and implement solutions. To work together means we must be physically present with each other. Mutual Aid cannot be done by committee or donations. We build Beloved communities as we get to know each other."},
+
+{id:"jk-consistent", themes:["comm","race","peace"], title:"An Epistle to Friends: words and actions",
+ src:"Jeff Kisling",
+ text:"It matters little what people say they believe when their actions are inconsistent with their words. Thus, we Friends may say there should not be hunger and poverty, but as long as Friends continue to collaborate in a system that leaves many without basic necessities and violently enforces white supremacy, our example will fail to speak to mankind. We must begin by changing our own lives if we hope to make a real testimony for peace and justice."},
+
+{id:"longman", themes:["native"], title:"Nickita Longman on landback",
+ src:"Quoted from Claire Elise Thompson, “Returning the Land,” Grist, February 25, 2020, in An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK",
+ text:"Any time an Indigenous person or nation has pushed back against the oppressive state, they are exercising some form of landback. The movement goes beyond the transfer of deeds to include respecting Indigenous rights, preserving languages and traditions, and ensuring food sovereignty, housing, and clean air and water."},
+
+{id:"dmblm", themes:["race","comm"], title:"Des Moines Black Liberation Movement",
+ src:"Quoted in An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK",
+ text:"capitalism has violated the communities of marginalized folks. capitalism is about the value of people, property and the people who own property. those who have wealth and property control the decisions that are made. the government comes second to capitalism when it comes to power. in the name of liberation, capitalism must be reversed and dismantled. meaning that capitalistic practices must be reprogrammed with mutual aid practices."},
+
+{id:"jk-draft-silence", themes:["faith","peace"], title:"Letter to my draft board, February 6, 1972",
+ src:"Jeff Kisling",
+ text:"There is a spirit which comes from the silence which gives direction to life. The spirit is often difficult to discern because of our ties to ‘this world.’ We are afraid or too proud to give up our desire to ‘reason through’ decisions. Thus we develop a system of beliefs and guidelines composed of traditional beliefs, our own reasoning, and as much guidance from the Inner Light as we are willing to seek and accept."},
+
+{id:"jk-draft-example", themes:["peace"], title:"Letter to my draft board: overcoming evil",
+ src:"Jeff Kisling, February 6, 1972",
+ text:"The time we spend ‘resisting evil’ could be better spent in trying to find out where we can do better ourselves. You do not change others by opposing them—rather, by respecting and trying to understand and learn from them, you can both benefit and move nearer the truth. A life of example—showing the possibilities and fruits of a life lived in love and concern for others, is the only way to overcome evil. I do not want my example to be alliance with evil."},
+
+{id:"britain-heritage", themes:["faith"], title:"Britain Yearly Meeting, 1994",
+ src:"Quaker Faith and Practice of Britain Yearly Meeting, 1994, p. 17, quoted in Faith and Practice, Iowa Yearly Meeting (Conservative)",
+ text:"We are seekers but we are also the holders of a precious heritage of discoveries. We, like every generation, must find the Light and Life again for ourselves. Only what we have valued and truly made our own, not by assertion but by lives of faithful commitment, can we hand on to the future. Even then we must humbly acknowledge that our vision of truth will again and again be amended."}
+];
+
+/* ═══════════════════════════════════════════════════════════
+   QUERIES — the prompt pool.
+   src: null means the query was written for this journal.
+   Anything with a src is quoted exactly from that source.
+   ═══════════════════════════════════════════════════════════ */
+const AQ = "Advices and Queries of Iowa Yearly Meeting (Conservative)";
+const QUERIES = [
+// ── faith and worship ─────────────────────────────────────
+{t:"Are our Meetings for Worship held in a spirit of expectant waiting and communion with the Holy Spirit? How do we prepare our hearts and minds for worship?", s:AQ+", No. 1", th:["faith"], sc:"w"},
+{t:"How do we refer to that which is divine? How does ascribing gender to the Holy Spirit affect our worship?", s:AQ+", No. 1", th:["faith"], sc:"w"},
+{t:"How do we center our lives in the awareness of God the Spirit, so that all things may take their rightful places?", s:AQ+", No. 8", th:["faith"], sc:"w"},
+{t:"Are we careful to reach our decisions through prayer and strengthen our actions with worship? Are we open to divine leadings?", s:AQ+", No. 9", th:["faith"], sc:"w"},
+{t:"What place do we make in our daily lives for meditation, spiritual renewal and reading of inspiring literature, such as the Bible?", s:AQ+", No. 7", th:["faith"], sc:"d"},
+{t:"How do we ensure that we act with fairness and integrity?", s:AQ+", No. 8", th:["faith"], sc:"d"},
+{t:"Are we sensitive to our own use of language which may be offensive or oppressive to others?", s:AQ+", No. 8", th:["faith"], sc:"d"},
+{t:"What was opened to you today that you would rather not have seen?", s:null, th:["faith"], sc:"d"},
+{t:"Where today did you feel a stop in your mind, and did you heed it?", s:null, th:["faith"], sc:"d"},
+{t:"Write about a leading you have been carrying without acting on. How long has it been there?", s:null, th:["faith"], sc:"w"},
+{t:"Woolman began his journal at thirty-six because he felt a motion of love. What is the motion behind your own writing here?", s:null, th:["faith"], sc:"w"},
+{t:"Where has your understanding of Truth changed since last year? What changed it?", s:null, th:["faith"], sc:"m"},
+{t:"Name one belief you hold that you have not tested against your own experience.", s:null, th:["faith"], sc:"m"},
+
+// ── Native affairs ────────────────────────────────────────
+{t:"Whose land are you on? Name the nation. What do you actually know about them, and how did you come to know it?", s:null, th:["native"], sc:"w"},
+{t:"Woolman went to Wehaloosing to feel and understand the life the Indians lived, hoping to receive instruction from them. When did you last go somewhere to be instructed rather than to help?", s:null, th:["native"], sc:"w"},
+{t:"Where in your daily life does the benefit of settlement reach you — in what you own, what you eat, where you sleep?", s:null, th:["native"], sc:"m"},
+{t:"kunesh writes that colonization is a declaration of war with the purpose of taking land. Write about a time you called something peace that was actually the quiet after a taking.", s:null, th:["native","peace"], sc:"m"},
+{t:"What have you given up — not given away, given up — in the direction of landback?", s:null, th:["native"], sc:"m"},
+{t:"Write about a relationship with an Indigenous person or community that has changed you. If there is none, write about that.", s:null, th:["native"], sc:"m"},
+{t:"Where does your meeting's history touch this land's dispossession? What is written down, and what is not?", s:null, th:["native"], sc:"m"},
+{t:"What did you learn this week that you should have been taught as a child?", s:null, th:["native","race"], sc:"w"},
+
+// ── racial injustice ──────────────────────────────────────
+{t:"How are we beneficiaries of inequity and exploitation? How are we victims of inequity and exploitation? In what ways can we address these problems?", s:AQ+", No. 11", th:["race"], sc:"w"},
+{t:"How can we improve our understanding of those who are driven to violence by subjection to racial, economic or political injustice? In what ways do we oppose prejudice and injustice based on gender, sexual orientation, class, race, age, and physical, mental and emotional conditions?", s:AQ+", No. 11", th:["race"], sc:"w"},
+{t:"What can we do to improve the conditions in our correctional institutions and to address the mental and social problems of those confined there?", s:AQ+", No. 11", th:["race"], sc:"m"},
+{t:"Do we welcome everyone and appreciate the gifts that differences such as race, creed, economic status, disability, age, gender or sexual orientation may bring to us?", s:AQ+", No. 2", th:["race","comm"], sc:"w"},
+{t:"Where this week did you stay silent because speaking would have cost you something? Name the cost you were avoiding.", s:null, th:["race"], sc:"d"},
+{t:"Write about a moment when your comfort was somebody else's expense, in plain terms, without softening it.", s:null, th:["race"], sc:"w"},
+{t:"Woolman saw that luxury and oppression have the seeds of war in them. What in your own household grows from that seed?", s:null, th:["race","earth"], sc:"m"},
+{t:"What would it mean to change your own life first, rather than your opinions?", s:null, th:["race","comm"], sc:"m"},
+
+// ── war and peace ─────────────────────────────────────────
+{t:"Do we faithfully maintain our testimony against preparation for and participation in war?", s:AQ+", No. 12", th:["peace"], sc:"w"},
+{t:"Do we recognize that we can be perpetrators as well as victims of violence? How do we deal with this? How can we support one another so that healing may take place?", s:AQ+", No. 12", th:["peace"], sc:"w"},
+{t:"What are we doing to understand the causes of war and violence and to work toward peaceful settlement of differences locally, nationally, and internationally?", s:AQ+", No. 12", th:["peace"], sc:"w"},
+{t:"What conflicts do we perceive between the laws of the State and our religious convictions? How do we resolve those conflicts in our lives?", s:AQ+", No. 9", th:["peace"], sc:"m"},
+{t:"How do we maintain our integrity when we find ourselves in a position of power? How do we respond when we feel powerless?", s:AQ+", No. 9", th:["peace","comm"], sc:"w"},
+{t:"What are we doing to educate ourselves and others about the causes of conflict in our own lives, our families and our meetings?", s:AQ+", No. 12", th:["peace","comm"], sc:"w"},
+{t:"Peace is more than the absence of violence — it is a condition in which people do not fear one another. Who is afraid of you?", s:null, th:["peace"], sc:"w"},
+{t:"Write about the smallest unloving act you committed this week. Not the largest.", s:null, th:["peace"], sc:"d"},
+{t:"Where do you pay for war, and what would refusing cost?", s:null, th:["peace"], sc:"m"},
+{t:"Write about a young person facing a decision the state is forcing on them. What do you owe them?", s:null, th:["peace"], sc:"m"},
+
+// ── community and mutual aid ──────────────────────────────
+{t:"How do we respond to each other's personal needs and difficulties in sensitive and useful ways?", s:AQ+", No. 5", th:["comm"], sc:"w"},
+{t:"How do we keep in touch with inactive and distant members and attenders?", s:AQ+", No. 5", th:["comm"], sc:"m"},
+{t:"When in conflict with others, do we cultivate a forgiving spirit? Do we look to that of God in ourselves and seek to address that of God in those with whom we disagree?", s:AQ+", No. 4", th:["comm"], sc:"w"},
+{t:"How does our meeting balance the needs for honesty and kindness? What topics do we avoid for the sake of “unity”?", s:AQ+", No. 4", th:["comm"], sc:"w"},
+{t:"How do we respond when no one else in the meeting seems to hold the views that we do on an issue? How do we respond to a dissenting minority?", s:AQ+", No. 3", th:["comm"], sc:"m"},
+{t:"In what ways do we cooperate with persons and groups with whom we share concerns? How do we reach out to those with whom we disagree?", s:AQ+", No. 2", th:["comm"], sc:"w"},
+{t:"Write about someone who helped you up with a tender hand. Have you told them?", s:null, th:["comm"], sc:"d"},
+{t:"Mutual aid is not us helping them. Where are you still helping them?", s:null, th:["comm"], sc:"w"},
+{t:"Who in your community would know if you disappeared for a week? Write the list.", s:null, th:["comm"], sc:"m"},
+{t:"What did you receive this week that you did not pay for?", s:null, th:["comm","earth"], sc:"d"},
+
+// ── simplicity and the earth ──────────────────────────────
+{t:"What are we doing about our disproportionate use of the world's resources?", s:AQ+", No. 10", th:["earth"], sc:"w"},
+{t:"Do we see unreasonable exploitation in our relationship with the rest of creation?", s:AQ+", No. 10", th:["earth"], sc:"w"},
+{t:"How can we nurture reverence and respect for life? How can we become more fully aware of our interdependent relationship with the rest of creation?", s:AQ+", No. 10", th:["earth"], sc:"w"},
+{t:"How do we structure our individual lives in order to keep them uncluttered with things and activities?", s:AQ+", No. 8", th:["earth"], sc:"m"},
+{t:"Do we choose recreational activities which foster mental, physical and spiritual health?", s:AQ+", No. 8", th:["earth"], sc:"d"},
+{t:"What did you notice growing, or dying, within a hundred yards of where you slept?", s:null, th:["earth"], sc:"d"},
+{t:"Name one thing you could stop buying. Write down why you have not.", s:null, th:["earth"], sc:"m"},
+{t:"Write about the last time you were still long enough to hear the still, small voice.", s:null, th:["earth","faith"], sc:"w"}
+];
+
+/* ═══════════════════════════════════════════════════════════
+   ENTRY PROMPTS FOR YOUNG ADULTS — reproduced verbatim and in
+   full from the machine-drafted document of that name. Not
+   Jeff's own words; not attributed to him.
+   ═══════════════════════════════════════════════════════════ */
+const YOUNG_ADULT_PROMPTS=[
+ {group:"Listening & Inner Discernment", items:[
+  {name:"The Noise vs. The Pull", q:"Where in your week did you feel pressured to react quickly, and where did you feel pulled to wait? Describe the physical sensation of that pull."},
+  {name:"The Persistent Question", q:"What is an injustice or contradiction in your daily environment that you find yourself returning to, even when it would be easier to look away?"},
+  {name:"Unspoken Doubts", q:"Write about a time a group reached a quick consensus, but something inside you hesitated. Did you speak, or stay silent? What would have helped you name that hesitation?"}
+ ]},
+ {group:"Conscience in the Everyday", items:[
+  {name:"Active Objection", q:"What is an expectation placed on you by school, peers, or culture that you quietly decline to participate in? How do you practice that refusal with care rather than contempt?"},
+  {name:"The Comfort Cost", q:"What is one small, everyday comfort or convenience you would be willing to give up if it meant being directly aligned with your values?"},
+  {name:"First Steps Without a Map", q:"Think of a leading you feel right now—to create, mend, or protest. What is the smallest, concrete action you can take this week to test if it holds weight?"}
+ ]},
+ {group:"Relational Community & Collective Care", items:[
+  {name:"Labor & Kinship", q:"Think of a shared task you recently did alongside others (cooking, cleaning, organizing, repair). How did the physical labor alter how you understood the people working next to you?"},
+  {name:"Holding Conflict", q:"When a disagreement flares within a group you care about, what is your instinct—to withdraw, to win, or to listen underneath the words? What does genuine repair look like in that moment?"},
+  {name:"Mutual Need", q:"Write about a time you needed help but were hesitant to ask. What made asking feel vulnerable, and what shifted once the support arrived?"}
+ ]},
+ {group:"Encountering the Land & Place", items:[
+  {name:"Noticing Change", q:"Pick a single outdoor spot you pass regularly. What looks different about it today compared to a month ago? What does that patience teach you about your own growth?"},
+  {name:"Accountability to Place", q:"Who and what lived on the ground where you sleep before your community was built there? How does knowing that history reshape how you walk on it?"}
+ ]}
+];
+
+/* ═══════════════════════════════════════════════════════════
+   BIBLIOGRAPHY of the Quaker books shelf. Titles, authors and
+   notes are taken from each document's own record; every web
+   address was opened and confirmed on 6 September 2026, and an
+   empty "u" means no online source was found — never a guess.
+   ═══════════════════════════════════════════════════════════ */
+const BIBLIOGRAPHY=[
+{"a": "Alexander, Stella", "t": "Quaker Testimony Against Slavery and Racial Discrimination", "d": "Stella Alexander's 1958 account of the Quaker testimony against slavery and racial discrimination, published by Pennington ePress.", "u": "https://digitalcommons.georgefox.edu/quakerbooks/74"},
+{"a": "Angell, Stephen W.", "t": "E Pluribus Unum? Quaker Approaches to Plurality and Unity in Pennsylvania 1682–1764", "d": "Stephen Angell on how Friends governing Pennsylvania handled plurality and unity in the years of the Holy Experiment, published in Quaker Religious Thought in 2006.", "u": "https://digitalcommons.georgefox.edu/qrt/vol106/iss1/6/"},
+{"a": "Brock, Peter", "t": "Weddle's 'Walking in the Way of Peace: Quaker Pacifism in the Seventeenth Century' — book review", "d": "Peter Brock's 2003 review, in Quaker Studies, of Meredith Baldwin Weddle's history of seventeenth-century Quaker pacifism.", "u": "https://digitalcommons.georgefox.edu/quakerstudies/vol7/iss1/8/"},
+{"a": "Cook, Darius B.", "t": "Memoirs of Quaker Divide", "d": "D. B. Cook's memoir of the Quaker Divide settlement in Iowa, digitised by Google from a library copy.", "u": ""},
+{"a": "Cook, Darius B.", "t": "Six Months Among Indians", "d": "Darius B. Cook's settler account of the winter of 1839–40, digitised by Google from a library copy; the full title runs 'Six Months Among Indians, Wolves and Other Wild Animals.'", "u": "https://archive.org/details/sixmonthsamongi00cookgoog"},
+{"a": "Evangelical Friends Alliance", "t": "Evangelical Friend, September 1976", "d": "An issue of the Evangelical Friends Alliance magazine from September 1976, Volume 10, Number 1.", "u": "https://digitalcommons.georgefox.edu/nwym_evangelical_friend/55/"},
+{"a": "Frost, J. William", "t": "Friends and War Tax Resistance", "d": "J. William Frost's short history of Friends and the refusal to pay for war, from Friends Journal, March 1988.", "u": "https://www.friendsjournal.org/1988042/"},
+{"a": "Hunt, Elizabeth A.", "t": "Colonization: Evaluating the right of groups to settle other lands", "d": "An eighth-grade curriculum unit, built on the Understanding by Design template, asking students to evaluate whether groups have the right to settle lands already occupied.", "u": "https://digitalcommons.trinity.edu/educ_understandings/342/"},
+{"a": "Ince, Onur Ulas", "t": "Adam Smith, Settler Colonialism, and Cosmopolitan Overstretch", "d": "A political-theory paper arguing that Adam Smith's economic thought could not hold together its cosmopolitan claims once it reached the settler colonies.", "u": "https://ink.library.smu.edu.sg/soss_research_all/18/"},
+{"a": "Iowa Yearly Meeting (Conservative)", "t": "Advices and Queries of Iowa Yearly Meeting (Conservative)", "d": "The twelve advices and queries of Iowa Yearly Meeting (Conservative), in three editions: the queries alone, and two gatherings of them with the answers monthly meetings sent to annual sessions.", "u": "https://www.iymc.org/announcements-events-reports/advices-and-queries-2/"},
+{"a": "Iowa Yearly Meeting (Conservative)", "t": "Brief History of Iowa Yearly Meeting of Friends (Conservative)", "d": "The yearly meeting's own short history, from Fox and the Puritan Revolution through the Quaker migration into Iowa and the separations that produced the Conservative body.", "u": "https://www.iymc.org/wp-content/uploads/2018/05/History-Iowa-Yearly-Meeting.pdf"},
+{"a": "Iowa Yearly Meeting (Conservative)", "t": "Faith and Practice — the Book of Discipline of Iowa Yearly Meeting (Conservative)", "d": "The 2011 book of discipline of Iowa Yearly Meeting (Conservative): faith and testimonies, the manner of Friends, advices and queries, and the order of meetings.", "u": "https://www.iymc.org/faith-and-practice-the-book-of-discipline/"},
+{"a": "Jones, Louis Thomas", "t": "The Quakers of Iowa", "d": "Louis Thomas Jones's 1918 history of Friends in Iowa, with a separate excerpt of the chapter on the Conservative Friends and the separation of 1877.", "u": "https://archive.org/details/quakersofiowa00jonerich"},
+{"a": "Kisling, Jeff", "t": "Decolonial Journey", "d": "Jeff's compiled decolonial journey, beginning July 11, 2025, working back through his own life to see how deeply colonialism is embedded in white society and in himself.", "u": "https://newconscientiousobjector.com/2025/07/11/decolonial-journey-1/"},
+{"a": "Kisling, Jeff", "t": "An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK", "d": "Jeff's epistle to Friends holding that the colonial capitalist economy and white supremacy are contrary to the Spirit, and that mutual aid and LANDBACK are the practices that follow from saying so.", "u": "https://jeffkisling.com/2021/06/14/an-epistle-to-friends-regarding-community-mutual-aid-and-landback/"},
+{"a": "Kisling, Jeff", "t": "Letter to my draft board", "d": "Jeff's letter of February 6, 1972 breaking with the Selective Service System — the document in which he sets out why alternative service was not acceptable to him.", "u": "https://jeffkisling.com/selective-service-system-decision/"},
+{"a": "Kisling, Jeff", "t": "Scattergood and the Viet Nam War", "d": "Jeff's gathering of material from Scattergood Friends School in 1969 — his class at eighteen, and the conscientious objection letters written then.", "u": "https://jeffkisling.com/2016/04/23/scattergood-and-the-vietnam-war/"},
+{"a": "Laughlin, Don", "t": "Young Quaker Men Facing War and Conscription", "d": "Don Laughlin's compilation of Quaker men facing conscription from the Civil War onward, with the epistles and declarations, gathered case by case.", "u": "https://jeffkisling.com/2020/10/29/young-quaker-men-facing-war-and-conscription/"},
+{"a": "Marsh, Dawn G.", "t": "A Lenape among the Quakers", "d": "The life of Hannah Freeman, a Lenape woman living among Pennsylvania Quakers, published by the University of Nebraska Press in 2014. This copy is the press's free sample, not the whole book.", "u": "https://www.nebraskapress.unl.edu/nebraska/9780803248403"},
+{"a": "Penington, Isaac", "t": "The Writings of Isaac Penington, Volume 1", "d": "The first volume of Penington's letters and papers in a modernised edition, with a foreword on his life.", "u": "https://www.friendslibrary.com/isaac-penington/writings-volume-1"},
+{"a": "Penington, Isaac", "t": "The Writings of Isaac Penington, Volume 2", "d": "The second volume of Penington's writings, opening on spiritual knowledge — what it is to know rather than to have been told.", "u": "https://www.friendslibrary.com/isaac-penington/writings-volume-2"},
+{"a": "Penn, William", "t": "No Cross, No Crown", "d": "Penn's treatise on self-denial, written in 1668 during his imprisonment in the Tower of London, in a modernised edition.", "u": "https://www.friendslibrary.com/william-penn/no-cross-no-crown"},
+{"a": "Sewel, William", "t": "The History of the Rise, Increase, and Progress of the Christian People Called Quakers", "d": "Sewel's history of the first Quaker generations, the work of more than twenty-five years, in a modernised edition.", "u": "https://www.friendslibrary.com/william-sewel/history-of-quakers"},
+{"a": "Standing, Ellen", "t": "The Voice of Uncle Charley", "d": "Ellen Standing's 1936 remembrance of her uncle Charles Standing, a minister of Bear Creek Monthly Meeting, written after his funeral.", "u": ""},
+{"a": "Standing, Herbert C.", "t": "Historical Notes Concerning the Conservative Friends at Bear Creek", "d": "Herbert Standing's 1977 centenary account of the 1877 separation and of Bear Creek, the one meeting of the original Iowa Yearly Meeting (Conservative) that has continued unbroken.", "u": ""},
+{"a": "Turford, Hugh", "t": "Walk in the Spirit", "d": "Hugh Turford's treatise on living by the Spirit, in a modernised edition, in PDF and EPUB.", "u": "https://www.friendslibrary.com/hugh-turford/walk-in-the-spirit"},
+{"a": "Woolman, John", "t": "The Journal and Writings of John Woolman", "d": "Woolman's journal and writings in a modernised edition, opening with the Yorkshire testimony given after his death at York in 1772.", "u": "https://www.friendslibrary.com/john-woolman/journal-writings"},
+{"a": "", "t": "Consolidated IYMC Minutes 2003–2023 — briefing document", "d": "A summary of twenty years of Iowa Yearly Meeting (Conservative) minutes, organised by theme — not the minutes themselves.", "u": ""},
+{"a": "", "t": "An Epistle to Friends Concerning Military Conscription", "d": "A collective epistle from Friends arguing that cooperating with the draft — even as a recognised conscientious objector — makes one part of the power that forces others into war.", "u": "https://jeffkisling.com/2017/04/27/an-epistle-to-friends-concerning-military-conscription/"},
+{"a": "", "t": "Life of James Parnell", "d": "The life, letters and writings of James Parnell, the young Friend who died in Colchester Castle in 1656, in a modernised edition.", "u": "https://www.friendslibrary.com/james-parnell/life"},
+{"a": "", "t": "Standing Family Entry to Dallas County", "d": "Scanned history pages recording the Standing family's arrival in Dallas County, Iowa, assembled June 2024.", "u": ""},
+{"a": "", "t": "Truth Defended", "d": "An early Friends apology — 'Truth Defended on Behalf of the People in Derision Called Quakers' — setting out what Friends believed, in their own words, against the charges of their adversaries.", "u": "https://www.friendslibrary.com/compilations/truth-defended"},
+{"a": "", "t": "Truth in the Inward Parts, Volume 1", "d": "A modernised anthology of early Friends' journals and writings, with a long editorial introduction on what the first Quakers understood themselves to be doing.", "u": "https://www.friendslibrary.com/compilations/truth-in-the-inward-parts-v1"}
+];
+
+/* ═══════════════════════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════════════════════ */
+const LS_BOOK="openings.bookId", LS_PREFIX="openings.book.";
+let db=null, sampleFn=null, downloadsNs=null;
+let book=null;           // {id,title,writer,rhythm,themes[],offset,created}
+let pages=[];            // [{id,order,date,title,body,promptText,promptSrc,updated}]
+let curId=null;
+let deleted=null;        // last deleted page for undo
+let saveTimer=null, statusTimer=null;
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const nowMs=()=>Date.now();
+const uid=()=>Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);
+const todayISO=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);};
+
+function fmtDate(iso){
+  if(!iso) return "";
+  const p=iso.split("-"); if(p.length!==3) return iso;
+  const d=new Date(+p[0],+p[1]-1,+p[2]);
+  if(isNaN(d)) return iso;
+  return d.toLocaleDateString(undefined,{year:"numeric",month:"long",day:"numeric"});
+}
+function status(msg,actLabel,actFn,ms){
+  const bar=$("statusbar"), btn=$("status-act");
+  $("status-text").textContent=msg;
+  clearTimeout(statusTimer);
+  if(actLabel){btn.textContent=actLabel;btn.classList.remove("hide");btn.onclick=()=>{actFn();bar.classList.remove("on");};}
+  else btn.classList.add("hide");
+  bar.classList.add("on");
+  statusTimer=setTimeout(()=>bar.classList.remove("on"), ms||(actLabel?18000:3500));
+}
+
+/* ── local mirror ────────────────────────────────────────── */
+function lsGet(k,f){try{const v=localStorage.getItem(k);return v?JSON.parse(v):f;}catch(e){return f;}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function mirror(){ if(book) lsSet(LS_PREFIX+book.id,{book,pages}); }
+
+/* ── storage layer (db + local mirror) ───────────────────── */
+async function dbSaveBook(){
+  mirror();
+  if(!db) return;
+  try{ await db.doc("books/"+book.id).set(book); }catch(e){ storageTrouble(e); }
+}
+async function dbSavePage(p){
+  mirror();
+  if(!db) return;
+  try{ await db.doc("books/"+book.id+"/pages/"+p.id).set(p); }catch(e){ storageTrouble(e); }
+}
+async function dbDeletePage(id){
+  mirror();
+  if(!db) return;
+  try{ await db.doc("books/"+book.id+"/pages/"+id).delete(); }catch(e){ storageTrouble(e); }
+}
+function storageTrouble(e){
+  const c=e&&e.code;
+  if(c==="quota_exceeded") status("This book is full. Delete some pages to add more.");
+  else if(c==="revoked"||c==="not_granted") status("Saving to the shelf stopped. Pages are kept in this browser.");
+  else status("Could not save to the shelf just now. Kept in this browser.");
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PERIODS, RECORD AND QUERY SELECTION
+   ═══════════════════════════════════════════════════════════ */
+const PERIOD_DAYS={daily:1,weekly:7,monthly:30,open:1};
+const PERIOD_WORD={daily:"today's query",weekly:"this week's query",monthly:"this month's query",open:"a query, as way opens"};
+function dayNum(ms){ return Math.floor((ms - new Date(ms).getTimezoneOffset()*6e4)/864e5); }
+function periodIndex(rhythm,ms){ return Math.floor(dayNum(ms)/PERIOD_DAYS[rhythm||"weekly"]); }
+function hashStr(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return Math.abs(h);}
+
+function scaleFor(rhythm){ return rhythm==="daily"?"d":rhythm==="monthly"?"m":"w"; }
+function queryPool(){
+  const th=(book.themes&&book.themes.length)?book.themes:THEMES.map(t=>t.id);
+  const want=scaleFor(book.rhythm);
+  let pool=QUERIES.filter(q=>q.th.some(x=>th.includes(x)));
+  const scaled=pool.filter(q=>q.sc===want);
+  if(scaled.length>=6) pool=scaled;
+  return pool.length?pool:QUERIES;
+}
+function currentQuery(){
+  const pool=queryPool();
+  const i=(periodIndex(book.rhythm,nowMs())+hashStr(book.id)+(book.offset||0))%pool.length;
+  return pool[i];
+}
+function renderRecord(){
+  const el=$("p-record"); el.innerHTML="";
+  const r=book.rhythm||"weekly", n=12, cur=periodIndex(r,nowMs());
+  const written=new Set();
+  pages.forEach(p=>{
+    const t=p.date?Date.parse(p.date+"T12:00:00"):p.updated;
+    if(t && (p.body||"").trim()) written.add(periodIndex(r,t));
+  });
+  for(let k=n-1;k>=0;k--){
+    const idx=cur-k, i=document.createElement("i");
+    if(written.has(idx)) i.className="kept";
+    if(k===0) i.className+=" now";
+    i.title=(written.has(idx)?"written":"nothing written")+(k===0?" — this period":"");
+    el.appendChild(i);
+  }
+  const label=r==="daily"?"12 days":r==="monthly"?"12 months":r==="open"?"12 days":"12 weeks";
+  el.title="The record — last "+label;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PAGES
+   ═══════════════════════════════════════════════════════════ */
+function sorted(){ return pages.slice().sort((a,b)=>a.order-b.order); }
+function idx(){ return sorted().findIndex(p=>p.id===curId); }
+function cur(){ return pages.find(p=>p.id===curId)||sorted()[0]; }
+
+function queriesOn(){ return !book || book.queries!==false; }
+function newPage(order,withPrompt){
+  const q=(withPrompt&&queriesOn())?currentQuery():null;
+  return {
+    id:uid(), order, date:todayISO(), title:"", body:"",
+    promptText:q?q.t:"", promptSrc:q?(q.s||"A query written for this journal"):"",
+    updated:nowMs()
+  };
+}
+function appendPage(withPrompt){
+  const s=sorted(), last=s.length?s[s.length-1].order:0;
+  const p=newPage(last+1,withPrompt!==false);
+  pages.push(p); curId=p.id; dbSavePage(p); renderAll(); focusBody();
+}
+function insertAfterCurrent(){
+  const s=sorted(), i=s.findIndex(p=>p.id===curId);
+  const a=s[i]?s[i].order:0, b=s[i+1]?s[i+1].order:a+2;
+  const p=newPage((a+b)/2,true);
+  pages.push(p); curId=p.id; dbSavePage(p); renderAll(); focusBody();
+}
+function deleteCurrent(){
+  if(pages.length<=1){ status("A book keeps at least one page."); return; }
+  const p=cur(); if(!p) return;
+  const s=sorted(), i=s.findIndex(x=>x.id===p.id);
+  deleted=Object.assign({},p);
+  pages=pages.filter(x=>x.id!==p.id);
+  const s2=sorted();
+  curId=(s2[i]||s2[i-1]||s2[0]).id;
+  dbDeletePage(p.id); renderAll();
+  status("Page removed.","restore",()=>{
+    if(!deleted) return;
+    pages.push(deleted); curId=deleted.id; dbSavePage(deleted); deleted=null; renderAll();
+  });
+}
+function focusBody(){ const b=$("l-body"); b.focus(); }
+
+function markSaving(){
+  const s=$("l-saved"); s.textContent="saving…"; s.classList.remove("on");
+}
+function markSaved(){
+  const s=$("l-saved"); s.textContent=db?"saved":"saved in this browser"; s.classList.add("on");
+  setTimeout(()=>{ if(s.textContent.startsWith("saved")) s.classList.remove("on"); },1200);
+}
+function queueSave(){
+  const p=cur(); if(!p) return;
+  p.title=$("l-title").value; p.body=$("l-body").value; p.date=$("l-date").value; p.updated=nowMs();
+  markSaving();
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(async()=>{ await dbSavePage(p); markSaved(); renderList(); renderRecord(); },800);
+}
+function flushSave(){
+  const p=cur(); if(!p) return;
+  clearTimeout(saveTimer);
+  p.title=$("l-title").value; p.body=$("l-body").value; p.date=$("l-date").value; p.updated=nowMs();
+  dbSavePage(p).then(markSaved); renderList(); renderRecord();
+}
+function autoGrow(){ const b=$("l-body"); b.style.height="auto"; b.style.height=Math.max(b.scrollHeight,320)+"px"; }
+
+/* ═══════════════════════════════════════════════════════════
+   RENDER
+   ═══════════════════════════════════════════════════════════ */
+function renderPlate(){
+  $("p-title").textContent=book.title||"Openings";
+  $("p-writer").textContent=book.writer?("kept by "+book.writer):"";
+  $("p-rhythm").textContent=queriesOn()
+    ? ({daily:"a query each day",weekly:"a query each week",monthly:"a query each month",open:"a query as way opens"})[book.rhythm||"weekly"]
+    : ({daily:"writing each day",weekly:"writing each week",monthly:"writing each month",open:"writing as way opens"})[book.rhythm||"weekly"];
+  const th=(book.themes||[]).map(t=>THEME_LABEL[t]).filter(Boolean);
+  $("p-themes").textContent=th.length?th.join(" · "):"all concerns";
+  document.title=(book.title&&book.title!=="Openings")?("Openings — "+book.title):"Openings";
+}
+function renderList(){
+  const s=sorted(), el=$("e-list"); el.innerHTML="";
+  $("e-count").textContent=s.length+(s.length===1?" page":" pages");
+  s.forEach((p,i)=>{
+    const b=document.createElement("button");
+    b.type="button"; b.className="leafbtn"; b.setAttribute("aria-current",p.id===curId?"true":"false");
+    const first=(p.title||"").trim()||(p.body||"").trim().split("\n")[0]||"blank";
+    b.innerHTML='<span class="n">'+(i+1)+'</span><span><span class="d">'+esc(fmtDate(p.date)||"undated")+'</span><span class="s">'+esc(first.slice(0,80))+'</span></span>';
+    b.onclick=()=>{ flushSave(); curId=p.id; renderAll(); };
+    el.appendChild(b);
+  });
+}
+function renderLeaf(){
+  const p=cur(); if(!p) return;
+  const s=sorted(), i=s.findIndex(x=>x.id===p.id);
+  $("l-folio").textContent="page "+(i+1);
+  $("l-of").textContent=(i+1)+" of "+s.length;
+  $("l-date").value=p.date||"";
+  $("l-title").value=p.title||"";
+  $("l-body").value=p.body||"";
+  if(p.promptText){
+    $("l-slip").classList.remove("hide");
+    $("l-slipq").textContent=p.promptText;
+    $("l-slipa").textContent=p.promptSrc||"";
+  } else $("l-slip").classList.add("hide");
+  $("b-prev").disabled=i<=0; $("b-next").disabled=i>=s.length-1;
+  $("l-saved").textContent="";
+  autoGrow();
+}
+function renderPrompt(){
+  const q=currentQuery();
+  $("pq-period").textContent=PERIOD_WORD[book.rhythm||"weekly"];
+  $("pq-text").textContent=q.t;
+  $("pq-attr").textContent=q.s||"A query written for this journal";
+  const rel=rank(q.t,3,(book.themes||[]))[0];
+  const box=$("pq-passage");
+  if(rel){
+    box.innerHTML=esc(rel.text)+'<p class="attr">'+esc(rel.title)+" — "+esc(rel.src)+'</p>';
+    const link=sourceLinkEl(rel); if(link) box.appendChild(link);
+    box.classList.remove("hide");
+  } else box.classList.add("hide");
+}
+function renderShelfList(){
+  const el=$("sh-list"); el.innerHTML="";
+  const th=(book.themes&&book.themes.length)?book.themes:THEMES.map(t=>t.id);
+  const items=SHELF.filter(s=>s.themes.some(t=>th.includes(t)));
+  (items.length?items:SHELF).forEach(s=>{
+    const b=document.createElement("button");
+    b.type="button"; b.className="shelfitem";
+    b.innerHTML='<span class="st">'+esc(s.title)+'</span><span class="sa">'+esc(s.src)+'</span>';
+    b.onclick=()=>{
+      const out=$("sh-a");
+      out.classList.remove("thinking");
+      out.innerHTML=esc(s.text)+'<p class="attr" style="margin-top:.7rem">'+esc(s.src)+'</p>';
+      const link=sourceLinkEl(s); if(link) out.appendChild(link);
+      $("sh-s").innerHTML="";
+    };
+    el.appendChild(b);
+  });
+}
+function startPageOn(text,src){
+  flushSave();
+  const p=cur();
+  if(!p||(p.body||"").trim()||p.promptText) appendPage(false);
+  const t=cur();
+  t.promptText=text; t.promptSrc=src; t.updated=nowMs();
+  dbSavePage(t); renderAll();
+  $("leaf").scrollIntoView({behavior:(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)?"auto":"smooth",block:"start"});
+  setTimeout(focusBody,350);
+}
+function renderEntryPrompts(){
+  const el=$("eprompts"); el.innerHTML="";
+  YOUNG_ADULT_PROMPTS.forEach(g=>{
+    const sec=document.createElement("div"); sec.className="group";
+    const h=document.createElement("h3"); h.textContent=g.group; sec.appendChild(h);
+    g.items.forEach(it=>{
+      const wrap=document.createElement("div"); wrap.className="eprompt";
+      const nm=document.createElement("span"); nm.className="name"; nm.textContent=it.name;
+      const q=document.createElement("p"); q.className="q"; q.textContent=it.q;
+      const b=document.createElement("button"); b.type="button"; b.className="btn"; b.textContent="write on this";
+      b.onclick=()=>startPageOn(it.q,"Entry prompts for young adults — "+it.name);
+      wrap.appendChild(nm); wrap.appendChild(q); wrap.appendChild(b);
+      sec.appendChild(wrap);
+    });
+    el.appendChild(sec);
+  });
+}
+/* Which book on the shelf a passage came out of. Resolved from the
+   passage's own source line, so the two lists cannot drift apart.
+   A passage quoted inside Faith and Practice belongs to Faith and
+   Practice — that is the volume it was read in — which is why that
+   test runs before the author tests. */
+const BIB_BY_TITLE=Object.fromEntries(BIBLIOGRAPHY.map(b=>[b.t,b]));
+const DIRECT_SOURCE={
+  "Decolonizing Quaker Moves to Innocence":{
+    t:"Decolonizing Quaker Moves to Innocence, Quaker Religious Thought 139 (2022)",
+    u:"https://digitalcommons.georgefox.edu/qrt/vol139/iss1/5/"}
+};
+function bookFor(s){
+  const hay=((s.src||"")+" "+(s.title||""));
+  if(/Decolonizing Quaker Moves/i.test(hay)) return DIRECT_SOURCE["Decolonizing Quaker Moves to Innocence"];
+  let t=null;
+  if(/Faith and Practice/i.test(hay)) t="Faith and Practice — the Book of Discipline of Iowa Yearly Meeting (Conservative)";
+  else if(/Advices and Queries/i.test(hay)) t="Advices and Queries of Iowa Yearly Meeting (Conservative)";
+  else if(/Woolman/i.test(hay)) t="The Journal and Writings of John Woolman";
+  else if(/draft board/i.test(hay)) t="Letter to my draft board";
+  else if(/Epistle to Friends|LANDBACK/i.test(hay)) t="An Epistle to Friends Regarding Community, Mutual Aid and LANDBACK";
+  return t?BIB_BY_TITLE[t]||null:null;
+}
+function sourceLinkEl(s){
+  const b=bookFor(s); if(!b) return null;
+  const wrap=document.createElement("p"); wrap.className="attr"; wrap.style.marginTop=".55rem";
+  wrap.appendChild(document.createTextNode("In "+b.t+". "));
+  if(b.u){
+    const a=document.createElement("a"); a.className="booklink";
+    a.href=b.u; a.target="_blank"; a.rel="noopener noreferrer";
+    a.textContent="Read it at "+hostOf(b.u)+" →";
+    wrap.appendChild(a);
+  }else{
+    wrap.appendChild(document.createTextNode("No copy online."));
+  }
+  return wrap;
+}
+function hostOf(u){
+  try{ return new URL(u).hostname.replace(/^www\./,""); }catch(e){ return "online"; }
+}
+function renderBibliography(){
+  const el=$("biblist"); if(!el) return;
+  el.innerHTML="";
+  /* every entry names its author. Suppressing a repeat reads correctly
+     down a printed column but not across a grid, where the entry below
+     lands beside a different name. */
+  BIBLIOGRAPHY.forEach(b=>{
+    const d=document.createElement("div"); d.className="bib";
+    const w=document.createElement("span"); w.className="who";
+    w.textContent=b.a||"Author unrecorded"; d.appendChild(w);
+    const t=document.createElement("span"); t.className="what"; t.textContent=b.t; d.appendChild(t);
+    const p=document.createElement("p"); p.className="about"; p.textContent=b.d; d.appendChild(p);
+    if(b.u){
+      const a=document.createElement("a");
+      a.href=b.u; a.target="_blank"; a.rel="noopener noreferrer";
+      a.textContent="read it at "+hostOf(b.u)+" →";
+      d.appendChild(a);
+    }else{
+      const n=document.createElement("span"); n.className="noweb";
+      n.textContent="no copy online — on the shelf only";
+      d.appendChild(n);
+    }
+    el.appendChild(d);
+  });
+}
+function renderQueryVisibility(){
+  const on=queriesOn();
+  $("t-prompt").classList.toggle("hide",!on);
+  if(!on && $("pn-prompt").classList.contains("on")) selectTab("shelf");
+}
+function renderAll(){ renderPlate(); renderList(); renderLeaf(); renderPrompt(); renderRecord(); renderShelfList(); renderQueryVisibility(); }
+
+/* ═══════════════════════════════════════════════════════════
+   RETRIEVAL over the shelf
+   ═══════════════════════════════════════════════════════════ */
+const STOP=new Set("a an and are as at be but by do does for from had has have how i if in into is it its me my not of on or our ourselves so than that the their them then there these they this to was we were what when where which who why will with you your".split(" "));
+function terms(q){
+  return (q||"").toLowerCase().replace(/[^a-z0-9\s']/g," ").split(/\s+/)
+    .filter(w=>w.length>2&&!STOP.has(w));
+}
+function rank(question,n,themes){
+  const ts=terms(question);
+  const scored=SHELF.map(s=>{
+    const hay=(s.title+" "+s.src+" "+s.text).toLowerCase();
+    let sc=0;
+    ts.forEach(t=>{
+      let k=0,i=hay.indexOf(t);
+      while(i!==-1&&k<6){k++;i=hay.indexOf(t,i+t.length);}
+      sc+=k*(t.length>6?1.6:1);
+    });
+    if(themes&&themes.length&&s.themes.some(t=>themes.includes(t))) sc+=0.9;
+    return {s,sc};
+  }).filter(x=>x.sc>0).sort((a,b)=>b.sc-a.sc);
+  return scored.slice(0,n||6).map(x=>x.s);
+}
+function passageBlock(list){
+  return list.map((s,i)=>"["+(i+1)+"] "+s.title+"\nSource: "+s.src+"\n\""+s.text+"\"").join("\n\n");
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ASKING CLAUDE
+   ═══════════════════════════════════════════════════════════ */
+function sampleUnavailable(){
+  ["b-ask","b-queries","b-across"].forEach(id=>{const b=$(id);if(b){b.disabled=true;}});
+  const q=$("sh-q"); if(q){ q.disabled=true; q.placeholder="Asking is not available here"; }
+  $("sh-a").textContent="Asking Claude is not available in this copy — that needs the published journal, "+
+    "where it runs on the reader's own Claude account. Everything else works: the pages, the queries, "+
+    "the shelf below, and both exports.";
+}
+function errCopy(e){
+  const c=e&&e.code;
+  if(c==="not_granted"||c==="sampling_disabled"||c==="not_declared") return "This view is not allowed to ask Claude.";
+  if(c==="rate_limited") return "Too many questions at once. Try again in a few minutes.";
+  if(c==="session_expired") return "Sign in to Claude again, then ask.";
+  if(c==="refused") return "Claude declined to answer that. Try asking it differently.";
+  if(c==="cancelled") return "";
+  if(c==="prompt_too_large") return "That was too much text to send. Try a shorter page or a narrower question.";
+  return "Something went wrong reaching Claude. Try again.";
+}
+let askCtl=null, fbCtl=null;
+
+async function askShelf(){
+  const q=$("sh-q").value.trim();
+  if(!q){ $("sh-q").focus(); return; }
+  if(!sampleFn) return sampleUnavailable();
+  const hits=rank(q,7,book.themes);
+  const out=$("sh-a"), srcs=$("sh-s");
+  srcs.innerHTML="";
+  hits.forEach(h=>{
+    const b=bookFor(h);
+    if(b&&b.u){
+      const a=document.createElement("a"); a.className="src booklink";
+      a.href=b.u; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent=h.title;
+      a.title="In "+b.t+" — opens "+hostOf(b.u);
+      srcs.appendChild(a);
+    }else{
+      const s=document.createElement("span"); s.className="src"; s.textContent=h.title;
+      srcs.appendChild(s);
+    }
+  });
+  out.textContent="Thinking…"; out.classList.add("thinking");
+  $("b-ask").classList.add("hide"); $("b-stopask").classList.remove("hide");
+  askCtl=new AbortController();
+  const prompt=
+    "You are answering a question from inside a Quaker journal. You have ONLY the passages below, "+
+    "which are exact excerpts carried inside the page — not whole books.\n\n"+
+    "Rules:\n"+
+    "- Answer from these passages only. Do not add facts from elsewhere.\n"+
+    "- Quote exactly when you quote, and name the source in plain words after the quotation.\n"+
+    "- If the passages do not address the question, say so plainly in one sentence and say which of them come nearest.\n"+
+    "- Write plain prose, two or three short paragraphs at most. No headings, no bullet lists, no markdown.\n"+
+    "- Use the term 'active objection' rather than 'resistance' in your own words, though quotations stay exactly as written.\n\n"+
+    "PASSAGES\n\n"+passageBlock(hits)+"\n\nQUESTION\n"+q;
+  try{
+    const r=await sampleFn(prompt,{signal:askCtl.signal,onText:({text})=>{out.classList.remove("thinking");out.textContent=text;}});
+    out.classList.remove("thinking"); out.textContent=r.text;
+  }catch(e){
+    out.classList.remove("thinking");
+    const keep=e&&e.text;
+    out.textContent=keep?keep:(errCopy(e)||"");
+    if(keep&&errCopy(e)) out.textContent=keep+"\n\n"+errCopy(e);
+    if(e&&(e.code==="not_granted"||e.code==="sampling_disabled")) sampleUnavailable();
+  }finally{
+    $("b-ask").classList.remove("hide"); $("b-stopask").classList.add("hide"); askCtl=null;
+  }
+}
+
+function renderQueries(el,text){
+  const lines=text.split("\n").map(l=>l.replace(/^\s*(?:[-—•*]|\d+[.)])\s*/,"").trim()).filter(Boolean);
+  el.classList.remove("thinking");
+  if(!lines.length){ el.textContent=text; return; }
+  el.innerHTML=lines.map(l=>'<span class="qline">'+esc(l)+'</span>').join("");
+}
+
+async function queriesOnPage(){
+  const p=cur(); const body=(p&&p.body||"").trim();
+  if(!body){ $("fb-a").textContent="Write something on this page first."; return; }
+  if(!sampleFn) return sampleUnavailable();
+  const out=$("fb-a"); out.textContent="Thinking…"; out.classList.add("thinking");
+  $("b-queries").disabled=true; $("b-stopfb").classList.remove("hide");
+  fbCtl=new AbortController();
+  const hits=rank(body+" "+(p.promptText||""),3,book.themes);
+  const th=(book.themes||[]).map(t=>THEME_LABEL[t]).join(", ")||"no particular concern";
+  const prompt=
+    "A Friend has written a page in their journal and has asked for queries in return, in the manner of a Quaker "+
+    "clearness committee. A clearness committee does not advise, praise, interpret, diagnose or decide. It asks "+
+    "honest, open questions that help the person hear their own leading.\n\n"+
+    "Write 5 or 6 queries arising from what they wrote. Rules:\n"+
+    "- One query per line. No numbering, no bullets, no preamble, no closing remark, no markdown.\n"+
+    "- Every query must be answerable only by them, from their own experience.\n"+
+    "- No advice, no compliments, no summary of what they said, no 'have you considered'.\n"+
+    "- Stay with what is actually on the page. Do not invent circumstances.\n"+
+    "- At most one query may draw on a passage below, and if it does, name the source inside the query.\n"+
+    "- Plain words. Short. Some queries should be uncomfortable.\n\n"+
+    "THEIR CONCERNS: "+th+"\n\n"+
+    (p.promptText?("THE QUERY THEY WERE WRITING ON: "+p.promptText+"\n\n"):"")+
+    "PASSAGES FROM THEIR SHELF (optional, use at most one)\n\n"+passageBlock(hits)+"\n\n"+
+    "WHAT THEY WROTE\n\n"+body.slice(0,9000);
+  try{
+    const r=await sampleFn(prompt,{cache:false,signal:fbCtl.signal,onText:({text})=>{out.classList.remove("thinking");out.textContent=text;}});
+    renderQueries(out,r.text);
+  }catch(e){
+    out.classList.remove("thinking");
+    if(e&&e.text) renderQueries(out,e.text); else out.textContent=errCopy(e)||"";
+    if(e&&(e.code==="not_granted"||e.code==="sampling_disabled")) sampleUnavailable();
+  }finally{ $("b-queries").disabled=false; $("b-stopfb").classList.add("hide"); fbCtl=null; }
+}
+
+async function acrossTheBook(){
+  const s=sorted().filter(p=>(p.body||"").trim());
+  if(s.length<2){ $("fb-b").textContent="Write on at least two pages, then this can read across them."; return; }
+  if(!sampleFn) return sampleUnavailable();
+  const out=$("fb-b"); out.textContent="Thinking…"; out.classList.add("thinking");
+  $("b-across").disabled=true; $("b-stopfb").classList.remove("hide");
+  fbCtl=new AbortController();
+  const recent=s.slice(-8);
+  const corpus=recent.map(p=>"["+(p.date||"undated")+"] "+(p.title?p.title+"\n":"")+(p.body||"").slice(0,2200)).join("\n\n---\n\n");
+  const prompt=
+    "These are recent pages from a Friend's journal, oldest first. Read them together and tell them what they keep "+
+    "returning to — the concerns, words and unfinished questions that recur across pages, and anything that has "+
+    "shifted from the earlier pages to the later ones.\n\n"+
+    "Rules:\n"+
+    "- Plain prose, two or three short paragraphs. No headings, no bullets, no markdown.\n"+
+    "- Describe what is there. Do not advise, praise, diagnose, or tell them what it means about them as a person.\n"+
+    "- Quote their own words back to them at least twice, exactly, in quotation marks.\n"+
+    "- End with a single query, on its own line, that follows from what recurs.\n"+
+    "- Use 'active objection' rather than 'resistance' in your own words.\n\n"+
+    "THE PAGES\n\n"+corpus.slice(0,20000);
+  try{
+    const r=await sampleFn(prompt,{cache:false,signal:fbCtl.signal,onText:({text})=>{out.classList.remove("thinking");out.textContent=text;}});
+    out.classList.remove("thinking"); out.textContent=r.text;
+  }catch(e){
+    out.classList.remove("thinking");
+    out.textContent=(e&&e.text)?e.text:(errCopy(e)||"");
+    if(e&&(e.code==="not_granted"||e.code==="sampling_disabled")) sampleUnavailable();
+  }finally{ $("b-across").disabled=false; $("b-stopfb").classList.add("hide"); fbCtl=null; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   EXPORT
+   ═══════════════════════════════════════════════════════════ */
+function bookMarkdown(){
+  const L=[];
+  L.push("# "+(book.title||"Openings"));
+  L.push("");
+  if(book.writer) L.push("Kept by "+book.writer+".");
+  L.push("A journal in the manner of Friends. Rhythm: "+(book.rhythm||"weekly")+
+         ". Concerns: "+((book.themes||[]).map(t=>THEME_LABEL[t]).join(", ")||"all")+".");
+  L.push("");
+  sorted().forEach((p,i)=>{
+    L.push("---");L.push("");
+    L.push("## "+(p.title||"Page "+(i+1)));
+    L.push("");
+    L.push("*"+(fmtDate(p.date)||"undated")+"*");
+    L.push("");
+    if(p.promptText){ L.push("> "+p.promptText); L.push(">"); L.push("> — "+(p.promptSrc||"")); L.push(""); }
+    L.push(p.body||"");
+    L.push("");
+  });
+  return L.join("\n");
+}
+/* ═══════════════════════════════════════════════════════════
+   PDF — written by hand against the base-14 Times faces, so the
+   page carries no library and stands on its own. Widths are the
+   standard Adobe AFM values for codes 32-126.
+   ═══════════════════════════════════════════════════════════ */
+const W_ROMAN=[250,333,408,500,500,833,778,333,333,333,500,564,250,333,250,278,500,500,500,500,500,500,500,500,500,500,278,278,564,564,564,444,921,722,667,667,722,611,556,722,722,333,389,722,611,889,722,722,556,722,667,556,611,722,722,944,722,722,611,333,278,333,469,500,333,444,500,444,500,444,333,500,500,278,278,500,278,778,500,500,500,500,333,389,278,500,500,722,500,500,444,480,200,480,541];
+const W_BOLD =[250,333,555,500,500,1000,833,333,333,333,500,570,250,333,250,278,500,500,500,500,500,500,500,500,500,500,333,333,570,570,570,500,930,722,667,722,722,667,611,778,778,389,500,778,667,944,722,778,611,778,722,556,667,722,722,1000,722,722,667,333,278,333,581,500,333,500,556,444,556,444,333,500,556,278,333,556,278,833,556,500,556,556,444,389,333,556,500,722,500,500,444,394,220,394,520];
+const W_ITAL =[250,333,420,500,500,833,778,333,333,333,500,675,250,333,250,278,500,500,500,500,500,500,500,500,500,500,333,333,675,675,675,500,920,611,611,667,722,611,611,722,722,333,444,667,556,833,667,722,611,722,611,500,556,722,611,833,611,556,556,389,278,389,422,500,333,500,500,444,500,444,278,500,500,278,278,444,278,722,500,500,500,500,389,389,278,500,444,667,444,444,389,400,275,400,541];
+const PDF_FONTS={R:{res:"/F1",w:W_ROMAN},B:{res:"/F2",w:W_BOLD},I:{res:"/F3",w:W_ITAL}};
+/* smart punctuation → WinAnsi code, with a width for each face */
+const WINANSI={"‘":[0x91,333,333,333],"’":[0x92,333,333,333],"“":[0x93,444,500,556],
+  "”":[0x94,444,500,556],"–":[0x96,500,500,500],"—":[0x97,1000,1000,889],
+  "…":[0x85,1000,1000,889],"•":[0x95,350,350,350]};
+const FACE_IX={R:1,B:2,I:3};
+
+function toWinAnsi(s){
+  let out="";
+  for(const ch of String(s==null?"":s)){
+    const c=ch.codePointAt(0);
+    if(WINANSI[ch]) out+=String.fromCharCode(WINANSI[ch][0]);
+    else if(c===9) out+="    ";
+    else if(c<32) out+=(c===10||c===13)?" ":"";
+    else if(c<127) out+=ch;
+    else if(c<=255) out+=ch;
+    else out+="?";
+  }
+  return out;
+}
+function charWidth(code,face){
+  if(code>=32&&code<=126) return PDF_FONTS[face].w[code-32];
+  for(const k in WINANSI){ if(WINANSI[k][0]===code) return WINANSI[k][FACE_IX[face]]; }
+  return 500;
+}
+function textWidth(s,face,size){
+  let w=0; for(let i=0;i<s.length;i++) w+=charWidth(s.charCodeAt(i),face);
+  return w*size/1000;
+}
+function wrapText(s,face,size,maxW){
+  const out=[];
+  String(s).split("\n").forEach(para=>{
+    const words=para.split(/\s+/).filter(w=>w.length);
+    if(!words.length){ out.push(""); return; }
+    let line="";
+    words.forEach(word=>{
+      const test=line?line+" "+word:word;
+      if(textWidth(test,face,size)<=maxW){ line=test; return; }
+      if(line){ out.push(line); line=""; }
+      let rest=word;
+      while(textWidth(rest,face,size)>maxW&&rest.length>1){
+        let n=1; while(n<rest.length&&textWidth(rest.slice(0,n+1),face,size)<=maxW) n++;
+        out.push(rest.slice(0,n)); rest=rest.slice(n);
+      }
+      line=rest;
+    });
+    if(line) out.push(line);
+  });
+  return out;
+}
+function pdfEscape(s){ return s.replace(/\\/g,"\\\\").replace(/\(/g,"\\(").replace(/\)/g,"\\)"); }
+
+function buildJournalPdf(){
+  const PW=612,PH=792,ML=72,MR=72,TOP=726,BOT=76;
+  const CW=PW-ML-MR;
+  const pagesOut=[]; let ops=[]; let y=TOP;
+  function newSheet(){
+    if(ops.length) pagesOut.push(ops);
+    ops=[]; y=TOP;
+    /* the margin rule, as on the screen */
+    ops.push("0.63 0.28 0.23 RG 0.7 w "+(ML-18)+" "+(BOT-10)+" m "+(ML-18)+" "+(TOP+22)+" l S");
+  }
+  function room(h){ if(y-h<BOT) newSheet(); }
+  function line(text,face,size,lead,indent){
+    room(lead);
+    const t=pdfEscape(toWinAnsi(text));
+    if(t.trim()) ops.push("BT "+PDF_FONTS[face].res+" "+size+" Tf 0 g 1 0 0 1 "+(ML+(indent||0))+" "+(y-size)+" Tm ("+t+") Tj ET");
+    y-=lead;
+  }
+  function block(text,face,size,lead,indent){
+    wrapText(text,face,size,CW-(indent||0)).forEach(l=>line(l,face,size,lead,indent));
+  }
+  function gap(h){ y-=h; }
+  function rule(){
+    room(14);
+    ops.push("0.72 0.70 0.64 RG 0.6 w "+ML+" "+(y-4)+" m "+(PW-MR)+" "+(y-4)+" l S");
+    y-=14;
+  }
+
+  newSheet();
+  /* title page */
+  gap(120);
+  block(book.title||"Openings","B",26,32,0);
+  gap(6); rule(); gap(4);
+  if(book.writer) block("Kept by "+book.writer,"I",13,18,0);
+  block("A journal in the manner of Friends.","I",13,18,0);
+  gap(10);
+  const th=(book.themes||[]).map(t=>THEME_LABEL[t]).join(", ")||"all concerns";
+  block("Concerns: "+th,"R",11,15,0);
+  block("Written "+(queriesOn()
+        ? ({daily:"to a query each day",weekly:"to a query each week",monthly:"to a query each month",open:"to a query as way opens"})[book.rhythm||"weekly"]
+        : "without queries — the writer's own pages")+".","R",11,15,0);
+  const list=sorted();
+  block(list.length+(list.length===1?" page":" pages")+", exported "+fmtDate(todayISO())+".","R",11,15,0);
+
+  /* the entries */
+  list.forEach((p,i)=>{
+    if(i===0){ newSheet(); }
+    else { gap(16); rule(); gap(8); room(96); }
+    block(p.title||("Page "+(i+1)),"B",16,21,0);
+    gap(2);
+    block(fmtDate(p.date)||"undated","I",11,15,0);
+    gap(6);
+    if(p.promptText){
+      block(p.promptText,"I",11.5,16,18);
+      if(p.promptSrc) block(p.promptSrc,"R",9.5,13,18);
+      gap(10);
+    }
+    if((p.body||"").trim()) block(p.body,"R",11.5,16.5,0);
+    else block("[blank]","I",11,16,0);
+  });
+  if(ops.length) pagesOut.push(ops);
+
+  /* assemble */
+  const objs=[];
+  const nPages=pagesOut.length;
+  const kids=[]; for(let i=0;i<nPages;i++) kids.push((6+i*2)+" 0 R");
+  objs[1]="<< /Type /Catalog /Pages 2 0 R >>";
+  objs[2]="<< /Type /Pages /Count "+nPages+" /Kids ["+kids.join(" ")+"] >>";
+  objs[3]="<< /Type /Font /Subtype /Type1 /BaseFont /Times-Roman /Encoding /WinAnsiEncoding >>";
+  objs[4]="<< /Type /Font /Subtype /Type1 /BaseFont /Times-Bold /Encoding /WinAnsiEncoding >>";
+  objs[5]="<< /Type /Font /Subtype /Type1 /BaseFont /Times-Italic /Encoding /WinAnsiEncoding >>";
+  pagesOut.forEach((page,i)=>{
+    const pageObj=6+i*2, streamObj=pageObj+1;
+    const foot="BT /F3 9 Tf 0.45 0.42 0.37 rg 1 0 0 1 "+(PW/2-10)+" "+(BOT-28)+" Tm ("+(i+1)+") Tj ET";
+    const content=page.join("\n")+"\n"+foot;
+    objs[pageObj]="<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+PW+" "+PH+"] "+
+      "/Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents "+streamObj+" 0 R >>";
+    objs[streamObj]="<< /Length "+content.length+" >>\nstream\n"+content+"\nendstream";
+  });
+
+  let out="%PDF-1.4\n%\xE2\xE3\xCF\xD3\n";
+  const offsets=[];
+  for(let i=1;i<objs.length;i++){
+    offsets[i]=out.length;
+    out+=i+" 0 obj\n"+objs[i]+"\nendobj\n";
+  }
+  const xref=out.length;
+  out+="xref\n0 "+objs.length+"\n0000000000 65535 f \n";
+  for(let i=1;i<objs.length;i++) out+=String(offsets[i]).padStart(10,"0")+" 00000 n \n";
+  out+="trailer\n<< /Size "+objs.length+" /Root 1 0 R >>\nstartxref\n"+xref+"\n%%EOF";
+
+  const bytes=new Uint8Array(out.length);
+  for(let i=0;i<out.length;i++) bytes[i]=out.charCodeAt(i)&0xFF;
+  return bytes;
+}
+
+/* Saving a file. Inside the artifact viewer the downloads capability
+   asks the reader and hands the file over; the viewer's sandbox blocks
+   an ordinary download link, so that path is tried first. Opened as a
+   plain HTML file in a browser there is no capability, and the ordinary
+   link is the one that works. */
+function saveLocally(filename,data,mime){
+  try{
+    const blob=(data instanceof Blob)?data:new Blob([data],{type:mime||"text/plain;charset=utf-8"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url; a.download=filename; a.style.display="none";
+    document.body.appendChild(a); a.click();
+    setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); },1500);
+    return true;
+  }catch(e){ return false; }
+}
+function bookFilename(ext){
+  return (book.title||"openings").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")+"."+ext;
+}
+async function exportPdf(){
+  flushSave();
+  let bytes;
+  try{ bytes=buildJournalPdf(); }
+  catch(e){ status("Could not build the PDF."); return; }
+  const blob=new Blob([bytes],{type:"application/pdf"});
+  if(downloadsNs){
+    try{
+      await downloadsNs.save({filename:bookFilename("pdf"),data:blob});
+      closeSheet("sheet-export"); status("PDF saved."); return;
+    }catch(e){ if(e&&e.code==="declined") return; }
+  }
+  if(saveLocally(bookFilename("pdf"),blob)){ closeSheet("sheet-export"); status("PDF saved."); return; }
+  status("The PDF could not be saved in this view.");
+}
+
+async function exportBook(){
+  flushSave();
+  const md=bookMarkdown();
+  if(downloadsNs){
+    try{ await downloadsNs.save({filename:bookFilename("md"),data:md}); closeSheet("sheet-export"); status("Markdown saved."); return; }
+    catch(e){ if(e&&e.code==="declined") return; }
+  }
+  if(saveLocally(bookFilename("md"),md,"text/markdown;charset=utf-8")){
+    closeSheet("sheet-export"); status("Markdown saved."); return;
+  }
+  // fallback: show it for copying
+  closeSheet("sheet-export");
+  $("sh-a").textContent=md; $("sh-s").innerHTML="";
+  selectTab("shelf");
+  status("Saving files is not available here — the whole book is in the shelf panel to copy.");
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TABS, SHEETS, WIRING
+   ═══════════════════════════════════════════════════════════ */
+function selectTab(which){
+  [["prompt","pn-prompt","t-prompt"],["shelf","pn-shelf","t-shelf"],["read","pn-read","t-read"]].forEach(([k,pn,tb])=>{
+    $(pn).classList.toggle("on",k===which);
+    $(tb).setAttribute("aria-selected",k===which?"true":"false");
+  });
+}
+function openSheet(id){ $(id).classList.add("on"); }
+function closeSheet(id){ $(id).classList.remove("on"); }
+
+function buildThemeChips(container,selected){
+  container.innerHTML="";
+  THEMES.forEach(t=>{
+    const b=document.createElement("button");
+    b.type="button"; b.className="chip"; b.dataset.v=t.id; b.textContent=t.label;
+    b.setAttribute("aria-pressed",selected.includes(t.id)?"true":"false");
+    b.onclick=()=>b.setAttribute("aria-pressed",b.getAttribute("aria-pressed")==="true"?"false":"true");
+    container.appendChild(b);
+  });
+}
+function chipsValue(container){
+  return Array.from(container.querySelectorAll('[aria-pressed="true"]')).map(b=>b.dataset.v);
+}
+function singleChips(container,value){
+  Array.from(container.children).forEach(b=>{
+    b.setAttribute("aria-pressed",b.dataset.v===value?"true":"false");
+    b.onclick=()=>{ Array.from(container.children).forEach(x=>x.setAttribute("aria-pressed","false")); b.setAttribute("aria-pressed","true"); };
+  });
+}
+function singleValue(container,fallback){
+  const b=container.querySelector('[aria-pressed="true"]');
+  return b?b.dataset.v:fallback;
+}
+
+function storageSentence(){
+  return db
+    ? "Your pages are kept with this page itself, so they are here whenever you open it, on any device. They are not kept privately from other people who can open this artifact — anyone with access to it can open the books inside. A copy is also kept in this browser."
+    : "The shelf is not reachable in this view, so your pages are being kept in this browser only. They will be here when you return in this browser, but not on another device, and clearing site data would remove them.";
+}
+
+/* ── start a new book ────────────────────────────────────── */
+function startBook(writer,title,rhythm,themes,queries){
+  book={id:uid(),title:title||"Openings",writer:writer||"",rhythm:rhythm||"weekly",
+        themes:themes||[],queries:queries!==false,offset:0,created:nowMs()};
+  pages=[]; const p=newPage(1,true); pages.push(p); curId=p.id;
+  lsSet(LS_BOOK,book.id);
+  dbSaveBook(); dbSavePage(p);
+  $("titlepage").classList.add("hide"); $("book").classList.remove("hide");
+  renderAll(); $("ab-storage").textContent=storageSentence();
+}
+function openBook(b,ps){
+  book=b; pages=ps&&ps.length?ps:[newPage(1,true)];
+  curId=sorted()[sorted().length-1].id;
+  lsSet(LS_BOOK,book.id);
+  $("titlepage").classList.add("hide"); $("book").classList.remove("hide");
+  renderAll(); $("ab-storage").textContent=storageSentence();
+}
+
+/* ── wiring ──────────────────────────────────────────────── */
+buildThemeChips($("f-themes"),["faith"]);
+singleChips($("f-rhythm"),"weekly");
+singleChips($("f-queries"),"yes");
+renderEntryPrompts();
+renderBibliography();
+
+/* theme: stamp an explicit choice so the reader can pick paper or lamplight */
+const LS_THEME="openings.theme";
+function applyTheme(t){
+  document.documentElement.setAttribute("data-theme",t);
+  $("b-theme").textContent = (t==="dark") ? "paper" : "lamp";
+  $("b-theme").title = (t==="dark") ? "Switch to the light page" : "Switch to lamplight";
+}
+/* the book opens as paper, whatever the system setting says; the
+   reader's own choice, once made, is remembered and wins */
+let theme=lsGet(LS_THEME,null);
+if(theme!=="light"&&theme!=="dark") theme="light";
+applyTheme(theme);
+$("b-theme").addEventListener("click",()=>{
+  theme=(theme==="dark")?"light":"dark"; lsSet(LS_THEME,theme); applyTheme(theme);
+});
+
+function openFromTitlePage(){
+  startBook($("f-writer").value.trim(),$("f-booktitle").value.trim(),
+            singleValue($("f-rhythm"),"weekly"),chipsValue($("f-themes")),
+            singleValue($("f-queries"),"yes")!=="no");
+}
+$("f-open").addEventListener("click",openFromTitlePage);
+["f-writer","f-booktitle"].forEach(id=>{
+  $(id).addEventListener("keydown",e=>{ if(e.key==="Enter"){ e.preventDefault(); openFromTitlePage(); } });
+});
+
+$("l-title").addEventListener("input",queueSave);
+$("l-body").addEventListener("input",()=>{autoGrow();queueSave();});
+$("l-date").addEventListener("change",queueSave);
+window.addEventListener("beforeunload",()=>{ if(book) flushSave(); });
+document.addEventListener("visibilitychange",()=>{ if(document.hidden&&book) flushSave(); });
+
+$("b-prev").onclick=()=>{ flushSave(); const s=sorted(),i=s.findIndex(p=>p.id===curId); if(i>0){curId=s[i-1].id;renderAll();} };
+$("b-next").onclick=()=>{ flushSave(); const s=sorted(),i=s.findIndex(p=>p.id===curId); if(i<s.length-1){curId=s[i+1].id;renderAll();} };
+$("b-append").onclick=()=>{ flushSave(); appendPage(true); };
+$("b-insert").onclick=()=>{ flushSave(); insertAfterCurrent(); };
+$("b-delete").onclick=()=>{
+  const b=$("b-delete");
+  if(b.dataset.armed==="1"){ b.dataset.armed=""; b.textContent="− delete this page"; deleteCurrent(); return; }
+  b.dataset.armed="1"; b.textContent="really delete? click again";
+  setTimeout(()=>{ if(b.dataset.armed==="1"){b.dataset.armed="";b.textContent="− delete this page";} },5000);
+};
+
+$("t-prompt").onclick=()=>selectTab("prompt");
+$("t-shelf").onclick=()=>selectTab("shelf");
+$("t-read").onclick=()=>selectTab("read");
+
+$("b-another").onclick=()=>{ book.offset=(book.offset||0)+1; dbSaveBook(); renderPrompt(); };
+$("b-use").onclick=()=>{
+  const p=cur(); const q=currentQuery();
+  if((p.body||"").trim()||p.promptText){ flushSave(); appendPage(false); }
+  const t=cur(); t.promptText=q.t; t.promptSrc=q.s||"A query written for this journal"; t.updated=nowMs();
+  dbSavePage(t); renderAll(); focusBody();
+};
+
+$("b-ask").onclick=askShelf;
+$("sh-q").addEventListener("keydown",e=>{ if(e.key==="Enter"){e.preventDefault();askShelf();} });
+$("b-stopask").onclick=()=>{ if(askCtl) askCtl.abort(); };
+$("b-queries").onclick=queriesOnPage;
+$("b-across").onclick=acrossTheBook;
+$("b-stopfb").onclick=()=>{ if(fbCtl) fbCtl.abort(); };
+
+$("b-entry").onclick=()=>{
+  $("resource").scrollIntoView({behavior:(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)?"auto":"smooth",block:"start"});
+};
+$("b-biblio").onclick=()=>{
+  $("bibliography").scrollIntoView({behavior:(window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches)?"auto":"smooth",block:"start"});
+};
+$("b-about").onclick=()=>{ $("ab-storage").textContent=storageSentence(); openSheet("sheet-about"); };
+$("b-export").onclick=()=>{ openSheet("sheet-export"); };
+$("b-exp-pdf").onclick=exportPdf;
+$("b-exp-md").onclick=exportBook;
+$("b-settings").onclick=()=>{
+  $("s-writer").value=book.writer||""; $("s-booktitle").value=book.title||"";
+  singleChips($("s-rhythm"),book.rhythm||"weekly");
+  singleChips($("s-queries"),queriesOn()?"yes":"no");
+  buildThemeChips($("s-themes"),book.themes||[]);
+  renderOtherBooks(); resetClearConfirm(); renderClearCount();
+  openSheet("sheet-settings");
+};
+
+/* ── clearing every page in this book ─────────────────────── */
+function bookTally(){
+  const s=sorted();
+  const words=s.reduce((n,p)=>n+((p.body||"").trim()?(p.body||"").trim().split(/\s+/).length:0),0);
+  return {pages:s.length,words:words};
+}
+function renderClearCount(){
+  const t=bookTally();
+  $("clear-count").textContent=
+    "This book holds "+t.pages+(t.pages===1?" page":" pages")+" and about "+t.words+
+    (t.words===1?" word":" words")+". Clearing removes every one of them and starts you on a blank page. "+
+    "The book's name, rhythm and concerns are kept. Export first if you want a copy.";
+}
+function resetClearConfirm(){
+  $("clear-confirm").classList.add("hide");
+  $("b-clear").classList.remove("hide");
+}
+async function clearAllWritings(){
+  const stash=sorted().map(p=>Object.assign({},p));
+  const fresh=newPage(1,queriesOn());
+  pages=[fresh]; curId=fresh.id;
+  renderAll(); resetClearConfirm(); closeSheet("sheet-settings");
+  for(const p of stash){ await dbDeletePage(p.id); }
+  await dbSavePage(fresh);
+  status("All writings cleared — "+stash.length+(stash.length===1?" page":" pages")+" removed.","put them back",async()=>{
+    await dbDeletePage(fresh.id);
+    pages=stash.map(p=>Object.assign({},p));
+    curId=sorted()[sorted().length-1].id;
+    for(const p of pages) await dbSavePage(p);
+    renderAll(); status("Restored.");
+  },90000);
+}
+$("b-clear").onclick=()=>{
+  const t=bookTally();
+  $("clear-warn").textContent="Clear "+t.pages+(t.pages===1?" page":" pages")+" and about "+t.words+" words?";
+  $("b-clear").classList.add("hide");
+  $("clear-confirm").classList.remove("hide");
+};
+$("b-clear-no").onclick=resetClearConfirm;
+$("b-clear-yes").onclick=clearAllWritings;
+$("s-save").onclick=()=>{
+  book.writer=$("s-writer").value.trim(); book.title=$("s-booktitle").value.trim()||"Openings";
+  book.rhythm=singleValue($("s-rhythm"),"weekly"); book.themes=chipsValue($("s-themes"));
+  book.queries=singleValue($("s-queries"),"yes")!=="no";
+  dbSaveBook(); renderAll(); closeSheet("sheet-settings"); status("Settings saved.");
+};
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>closeSheet(b.dataset.close));
+document.querySelectorAll(".sheet").forEach(s=>s.addEventListener("click",e=>{ if(e.target===s) s.classList.remove("on"); }));
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") document.querySelectorAll(".sheet.on").forEach(s=>s.classList.remove("on")); });
+
+let otherBooks=[];
+function renderOtherBooks(){
+  const el=$("s-books"); el.innerHTML="";
+  const others=otherBooks.filter(b=>b.id!==book.id);
+  if(!others.length){ el.innerHTML='<p class="note">No other books here yet.</p>'; return; }
+  others.forEach(b=>{
+    const btn=document.createElement("button");
+    btn.type="button"; btn.className="shelfitem";
+    btn.innerHTML='<span class="st">'+esc(b.title||"Openings")+'</span><span class="sa">'+esc(b.writer||"unnamed")+'</span>';
+    btn.onclick=async()=>{ closeSheet("sheet-settings"); await loadBook(b.id); };
+    el.appendChild(btn);
+  });
+}
+async function loadBook(id){
+  if(!db) return;
+  try{
+    const snap=await db.doc("books/"+id).get();
+    if(!snap.exists) return;
+    const q=await db.collection("books/"+id+"/pages").get();
+    const ps=q.docs.map(d=>Object.assign({id:d.id},d.data()));
+    flushSave(); openBook(Object.assign({},snap.data(),{id}), ps);
+  }catch(e){ status("Could not open that book."); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BOOT
+   ═══════════════════════════════════════════════════════════ */
+(function bootLocal(){
+  const id=lsGet(LS_BOOK,null);
+  if(id){
+    const saved=lsGet(LS_PREFIX+id,null);
+    if(saved&&saved.book){ openBook(saved.book,saved.pages||[]); return; }
+  }
+  $("titlepage").classList.remove("hide");
+})();
+
+(async function bootCapabilities(){
+  if(!window.claude||typeof window.claude.use!=="function"){
+    /* opened as a plain file: no Claude, so hide what needs it and
+       keep everything else — the book, the pages, the shelf, export */
+    sampleUnavailable();
+    if(book) $("ab-storage").textContent=storageSentence();
+    return;
+  }
+
+  try{ sampleFn=await window.claude.use("sample"); }catch(e){ sampleFn=null; }
+  if(!sampleFn) sampleUnavailable();
+  try{ downloadsNs=await window.claude.use("downloads"); }catch(e){ downloadsNs=null; }
+
+  try{ db=await window.claude.use("db"); }catch(e){ db=null; }
+  if(!db){ if(book) $("ab-storage").textContent=storageSentence(); return; }
+
+  // list books on the shelf
+  try{
+    const snap=await db.collection("books").limit(200).get();
+    otherBooks=snap.docs.map(d=>Object.assign({id:d.id},d.data()));
+  }catch(e){ otherBooks=[]; }
+
+  if(book){
+    // reconcile the open book with the shelf
+    try{
+      const q=await db.collection("books/"+book.id+"/pages").get();
+      const remote=new Map(q.docs.map(d=>[d.id,Object.assign({id:d.id},d.data())]));
+      const localById=new Map(pages.map(p=>[p.id,p]));
+      remote.forEach((rp,id)=>{
+        const lp=localById.get(id);
+        if(!lp||(rp.updated||0)>(lp.updated||0)) localById.set(id,rp);
+      });
+      pages=Array.from(localById.values());
+      // push anything the shelf does not have or that is older there
+      for(const p of pages){
+        const rp=remote.get(p.id);
+        if(!rp||(p.updated||0)>(rp.updated||0)) await dbSavePage(p);
+      }
+      await dbSaveBook();
+      if(!pages.find(p=>p.id===curId)) curId=sorted()[sorted().length-1].id;
+      renderAll();
+    }catch(e){ /* keep local */ }
+    $("ab-storage").textContent=storageSentence();
+  } else if(otherBooks.length){
+    // no local book, but books exist on the shelf
+    const btn=$("f-existing");
+    btn.classList.remove("hide");
+    btn.onclick=()=>{
+      const el=$("f-storagenote");
+      el.innerHTML="";
+      const wrap=document.createElement("div"); wrap.className="shelf";
+      otherBooks.forEach(b=>{
+        const x=document.createElement("button");
+        x.type="button"; x.className="shelfitem";
+        x.innerHTML='<span class="st">'+esc(b.title||"Openings")+'</span><span class="sa">'+esc(b.writer||"unnamed")+'</span>';
+        x.onclick=()=>loadBook(b.id);
+        wrap.appendChild(x);
+      });
+      el.appendChild(wrap);
+    };
+  }
+})();
+</script>
+
+</body>
+</html>
